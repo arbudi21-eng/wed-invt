@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amara &amp; Dewa — Wedding Invitation</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader&family=Figtree:wght@400;500&display=swap">
+<style>
+/* 15 forest-mist — cover:2 hero:0 frame:2 rhythm:2 (see tools/build-designs.cjs) */
+:root{--bg:#eef1ec;--bg2:#dde4da;--ink:#1b2a22;--mute:#566a5d;--mocha:#22382c;--on-mocha:#eef1ec;--clay:#7f9f7b;--clay-a:rgba(127,159,123,0.3);
+ --line:rgba(27,42,34,0.2);--glass:rgba(34,56,44,0.55);--fig:linear-gradient(160deg,#7f9f7b,#47614c);--hs:1;
+ --serif:'Newsreader',Georgia,'Times New Roman',serif;--sans:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font:400 1.05rem/1.7 var(--sans);overflow-x:hidden}
+body.locked{overflow:hidden;height:100vh}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:.98;letter-spacing:-.01em}
+section{padding:clamp(4rem,12vw,8rem) 1.5rem;max-width:880px;margin:auto;position:relative}
+h2{font-size:clamp(2.3rem,8vw,4.4rem);margin-bottom:1.5rem}
+p{max-width:52ch;color:var(--mute)}a{color:inherit}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+.btn{font:500 1rem var(--sans);background:var(--on-mocha);color:var(--mocha);border:0;border-radius:99px;padding:.85rem 1.6rem;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn.solid{background:var(--mocha);color:var(--on-mocha);border:1px solid var(--line)}
+#cover{position:fixed;inset:0;z-index:50;background:var(--mocha);color:var(--on-mocha);display:flex;flex-direction:column;justify-content:space-between;
+ padding:calc(2rem + env(safe-area-inset-top,0px)) 1.5rem calc(2rem + env(safe-area-inset-bottom,0px));overflow:hidden}
+#cover.open{pointer-events:none}
+#cover .small{font-size:.9rem;opacity:.85;max-width:30ch}
+#cover h1{font-size:calc(var(--hs,1)*clamp(4.2rem,24vw,12rem));line-height:.84;margin:auto 0;overflow-wrap:anywhere}
+#cover h1 i{display:block;font-size:.34em;font-style:italic;margin:.2em 0;color:var(--clay)}
+#cover.has-photo{background:#15110f}#cover.has-photo h1,#cover.has-photo .small{color:#fff;text-shadow:0 2px 28px rgba(0,0,0,.55)}
+.vellum{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);padding:1.2rem 1.4rem;
+ display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:var(--on-mocha)}
+.vellum span{font-size:.9rem;opacity:.8}.vellum strong{display:block;font:400 1.5rem/1.15 var(--serif)}
+#hero{max-width:none;min-height:100vh;position:relative;overflow:hidden;padding:clamp(5.5rem,12vh,8rem) clamp(1.5rem,6vw,5rem) clamp(4rem,9vh,6rem)}
+#hero p{color:inherit;opacity:.82}
+#hero .hero-copy>p:first-child{font:500 .76rem/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--clay);opacity:1;margin-bottom:1.6rem}
+#hero h2{font-size:calc(var(--hs,1)*clamp(3rem,9vw,6.6rem));margin:0 0 1.2rem;max-width:10ch;overflow-wrap:anywhere}
+.arch,.person-photo,.card{position:relative;overflow:hidden;background:var(--fig);aspect-ratio:3/4}
+.arch::after,.person-photo::after{content:"Your photo here";position:absolute;inset:auto 0 1rem;text-align:center;font-size:.8rem;color:#fff;opacity:.7}
+.person-photo{width:100%}.person-photo::before{content:"";position:absolute;inset:9px;border:1px solid rgba(255,255,255,.4);border-radius:inherit;pointer-events:none}
+.card{width:100%;display:flex;align-items:flex-end;justify-content:center;background:var(--g)}.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.count{display:flex;gap:clamp(1rem,5vw,3rem);margin-top:2rem;flex-wrap:wrap}
+.count div{font:400 clamp(2.4rem,10vw,4.6rem)/1 var(--serif)}.count small{display:block;font:400 .82rem var(--sans);color:var(--mute);margin-top:.4rem}
+.rows{border-top:1px solid var(--line);margin-top:2rem}
+.row{display:grid;grid-template-columns:7rem 1fr;gap:1rem;padding:1.2rem 0;border-bottom:1px solid var(--line)}
+.row b{font:400 1.45rem var(--serif);color:var(--clay)}.row span{color:var(--ink)}.row small{display:block;color:var(--mute)}
+.couple{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(1.6rem,5vw,3.5rem);align-items:center}
+.couple.flip{grid-template-columns:minmax(0,.78fr) minmax(0,1fr)}
+.couple .who h2{font-size:calc(var(--hs,1)*clamp(2.6rem,8vw,5rem));margin:.5rem 0 1rem}.couple .who p{margin-bottom:1.3rem}
+.kick{display:inline-block;font:500 .72rem/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--clay)}
+.kin{display:block;border-top:1px solid var(--line);padding-top:.9rem;font:500 .74rem/1.6 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+#intro .intro-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding-bottom:.9rem}
+#intro .intro-head em{font:italic 400 1.1rem/1 var(--serif);color:var(--clay)}
+#intro .intro-body{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(1.5rem,5vw,4rem);align-items:start}
+#intro h2{font-size:calc(var(--hs,1)*clamp(2.2rem,6vw,4rem));margin:0;max-width:13ch}
+#intro .intro-side p{margin-bottom:1.4rem}
+#intro .intro-date{display:block;font:500 .8rem/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.75}
+#gallery,#album{max-width:none;padding-inline:0}
+#gallery h2,#album h2{padding-inline:1.5rem;max-width:880px;margin-inline:auto}
+.track{display:flex;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:1rem 1.5rem 2rem;scrollbar-width:none}.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 min(72vw,320px);scroll-snap-align:center}
+.st{padding:1.1rem .3rem 0}.st h3{font:400 1.6rem/1.1 var(--serif);margin-bottom:.5rem}.st p{font-size:.96rem;line-height:1.6}
+.dots{display:flex;justify-content:center;gap:.5rem}.dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:.3s}
+.dots i.on{background:var(--clay);width:22px;border-radius:9px}
+.reel{margin-top:2rem}
+.filmstrip{display:flex;gap:1.1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:1.5rem;padding:.6rem 1.5rem 1rem;scrollbar-width:none;scroll-behavior:smooth}.filmstrip::-webkit-scrollbar{display:none}
+.frame{position:relative;flex:0 0 clamp(180px,44vw,260px);aspect-ratio:4/5;scroll-snap-align:start;cursor:pointer;background:var(--g);overflow:hidden}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.fn{position:absolute;left:.55rem;bottom:.55rem;z-index:2;padding:.28rem .45rem;background:rgba(0,0,0,.55);color:#fff;font:500 .66rem/1 var(--sans);letter-spacing:.16em}
+.lb{position:fixed;inset:0;z-index:70;background:rgba(10,8,8,.94)}.lb:not([hidden]){display:flex;align-items:center;justify-content:center}
+.big{height:min(80vh,140vw);max-width:92vw;border-radius:10px;overflow:hidden;background:var(--g)}.big img{width:100%;height:100%;object-fit:cover;display:block}
+#lx{position:absolute;top:calc(1rem + env(safe-area-inset-top,0px));right:1rem;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:1.5rem;cursor:pointer;padding:0}
+.vid{aspect-ratio:16/9;overflow:hidden;background:var(--fig);display:grid;place-items:center;color:#fff}.vid video{width:100%;height:100%;object-fit:cover;background:#000}
+.vid .pl{display:flex;flex-direction:column;align-items:center;gap:.8rem;font-size:.9rem;opacity:.9}
+.vid .pl::before{content:"▶";display:grid;place-items:center;width:64px;height:64px;border-radius:50%;border:1px solid currentColor;font-size:1.1rem;padding-left:4px}
+#closing{text-align:center}#closing p{margin:1.5rem auto 2rem}
+.rs{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+.pax{margin:1.4rem auto 0;display:flex;flex-direction:column;gap:.9rem;align-items:center}.pax[hidden]{display:none}
+.pax div{display:flex;gap:1rem;align-items:center}.pax div button{width:42px;height:42px;border-radius:50%;border:1px solid var(--ink);background:transparent;color:var(--ink);font-size:1.3rem;cursor:pointer}
+.pax b{font:400 2.2rem var(--serif);min-width:2ch;text-align:center}
+.wq{margin:0 0 1.8rem;padding-left:1.1rem;border-left:2px solid var(--clay)}.wq p{font:italic 400 1.25rem/1.4 var(--serif);color:var(--ink)}
+.wq cite{display:block;margin-top:.4rem;font-style:normal;font-size:.9rem;color:var(--mute)}
+.acct{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.2rem 0;border-bottom:1px solid var(--line)}
+.acct b{display:block;font:400 1.45rem var(--serif);color:var(--clay)}.acct .no{display:block;font:500 1.25rem var(--sans);letter-spacing:.05em;color:var(--ink)}.acct span{color:var(--mute);font-size:.92rem}
+#giftlist{border-top:1px solid var(--line);margin-top:1.8rem}
+footer{text-align:center;padding:2rem;color:var(--mute);font-size:.85rem}
+#music{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));z-index:40;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+#music svg{width:20px;height:20px;fill:currentColor}#music.on svg{animation:spin 6s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+#lang{position:fixed;top:calc(1rem + env(safe-area-inset-top,0px));right:1rem;z-index:60;border:0;border-radius:99px;padding:.45rem .9rem;font:500 .85rem var(--sans);background:var(--on-mocha);color:var(--mocha);cursor:pointer}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .9s,transform .9s}.rv.in{opacity:1;transform:none}
+@media(max-width:760px){.couple,.couple.flip{grid-template-columns:1fr}.couple .who{order:2}.couple .person-photo{order:1;max-width:min(72vw,300px);margin-inline:auto}
+ #intro .intro-body{grid-template-columns:1fr}.row{grid-template-columns:5.5rem 1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+#cover{background:transparent;text-align:center;align-items:center;transition:opacity .01s 1.45s,visibility 0s 1.5s}
+#cover::before,#cover::after{content:"";position:absolute;z-index:-1;background:var(--mocha);transition:transform 1.3s cubic-bezier(.7,0,.2,1)}
+#cover::before,#cover::after{top:0;bottom:0;width:50.5%}#cover::before{left:0}#cover::after{right:0}#cover.open::before{transform:translateX(-100%)}#cover.open::after{transform:translateX(100%)}
+#cover.open{opacity:0;visibility:hidden}#cover>*{transition:opacity .5s}#cover.open>*{opacity:0}
+#cover.has-photo::before,#cover.has-photo::after{background:transparent}#cover h1{font-style:italic}#hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:clamp(2rem,6vw,5rem);background:var(--mocha);color:var(--on-mocha)}
+ #hero .arch{justify-self:end;width:min(100%,420px)}
+ @media(max-width:760px){#hero{grid-template-columns:1fr}#hero .arch{order:-1;justify-self:start;width:min(56vw,240px)}}.arch,.person-photo,.card{border-radius:0;box-shadow:10px 10px 0 var(--clay)}.frame{border-radius:0;box-shadow:6px 6px 0 var(--clay);margin-bottom:6px}.person-photo::before{display:none}.track{padding-right:2rem}body{background:var(--bg2)}section:not(#hero){width:min(92vw,860px);margin:2.2rem auto 0;background:var(--bg);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--clay);padding-inline:clamp(1.4rem,5vw,3rem)}
+ #gallery,#album{max-width:860px;padding-inline:0}#gallery h2,#album h2{padding-inline:clamp(1.4rem,5vw,3rem)}
+ #intro{margin-top:-3.2rem;z-index:2}section:nth-of-type(odd):not(#hero){left:-1.2vw}section:nth-of-type(even){left:1.2vw}footer{padding-top:3rem}
+</style>
+
+<meta name="robots" content="noindex"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src https://*.supabase.co"><meta property="og:title" content="Amara &amp; Dewa"><meta property="og:description" content="Saturday, 13 March 2027">
+<style>[hidden]{display:none!important}#wt{width:100%;max-width:30rem;font:inherit;padding:.8rem;border:1px solid currentColor;border-radius:12px;background:transparent;color:inherit}#wc{display:block;opacity:.6}#msg{margin-top:1rem}.cover-bg{position:absolute;inset:0;z-index:-1;background-position:center;background-size:cover;background-repeat:no-repeat;pointer-events:none}.cover-bg::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.32),rgba(0,0,0,.55))}[data-photo].has-photo{background-size:cover;background-position:center;background-repeat:no-repeat}[data-photo].has-photo::after{content:none!important}</style>
+</head>
+<body class="locked">
+
+<div id="cover">
+  <p class="small" data-t="wed">The wedding of</p>
+  <h1>Amara<i>and</i>Dewa</h1>
+  <div class="vellum">
+    <div><span data-t="dear">Dear</span><strong id="guest">Beloved Guest</strong></div>
+    <button class="btn" id="open" data-t="open">Open invitation</button>
+  </div>
+</div>
+
+<button id="lang" aria-label="Switch language">ID</button>
+<button id="music" aria-label="Play or pause music" title="Music"><svg viewBox="0 0 24 24"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg></button>
+
+<section id="hero">
+  <div class="hero-copy">
+    <p data-t="date">Saturday, 13 March 2027</p>
+    <h2 data-t="h">We’re getting married.</h2>
+    <p data-t="hp">Together with our families, we would love for you to be there.</p>
+  </div>
+  <div class="arch"></div>
+</section>
+
+<section id="intro" class="rv">
+  <div class="intro-head">
+    <span class="kick" data-t="introK">The wedding</span>
+    <em>&amp;</em>
+  </div>
+  <div class="intro-body">
+    <h2 data-t="introH">Together with our families</h2>
+    <div class="intro-side">
+      <p data-t="introP">With joy we invite you to celebrate the beginning of our life together.</p>
+      <span class="intro-date" data-t="date">Saturday, 13 March 2027</span>
+    </div>
+  </div>
+</section>
+
+<section id="man" class="rv">
+  <div class="couple">
+    <div class="who">
+      <span class="kick" data-t="manK">The groom</span>
+      <h2>Dewa</h2>
+      <p data-t="manP">Dewa is the calm one: early to rise, always the first to make tea, and the last to leave the table.</p>
+      <span class="kin" data-t="manF">Son of Mr. &amp; Mrs. …</span>
+    </div>
+    <div class="person-photo" data-photo="man" role="img" aria-label="Photo of the groom"></div>
+  </div>
+</section>
+
+<section id="woman" class="rv">
+  <div class="couple flip">
+    <div class="person-photo" data-photo="woman" role="img" aria-label="Photo of the bride"></div>
+    <div class="who">
+      <span class="kick" data-t="womanK">The bride</span>
+      <h2>Amara</h2>
+      <p data-t="womanP">Amara notices the small things — good bread, old postcards, and the exact moment the light changes.</p>
+      <span class="kin" data-t="womanF">Daughter of Mr. &amp; Mrs. …</span>
+    </div>
+  </div>
+</section>
+
+<section class="rv det">
+  <h2 data-t="cd">Counting down</h2>
+  <div class="count" id="count"><div>0<small>days</small></div><div>0<small>hours</small></div><div>0<small>minutes</small></div><div>0<small>seconds</small></div></div>
+  <div class="rows">
+    <div class="row"><b data-t="when">When</b><span data-t="w">Saturday, 13 March 2027<small>Ceremony 10:00 · Reception 12:00</small></span></div>
+    <div class="row"><b data-t="where">Where</b><span data-t="v">Your Venue Name<small>Street address, City</small></span></div>
+    <div class="row"><b data-t="dress">Dress</b><span data-t="d">Warm neutrals<small>Mocha, sand, clay, cream</small></span></div>
+  </div>
+  <p style="margin-top:2rem"><a class="btn alt" id="map" href="https://www.google.com/maps/search/?api=1&query=Your+Venue+Name" target="_blank" rel="noopener" data-t="map">Open in Maps</a></p>
+</section>
+
+<section id="gallery" class="rv">
+  <h2 data-t="gal">Our story, so far</h2>
+  <div class="track" id="track"></div>
+  <div class="dots" id="dots"></div>
+</section>
+
+<section id="film" class="rv"><h2 data-t="fl">The film</h2><div class="vid" id="vid"></div><div id="vl"></div></section>
+
+<section id="album" class="rv"><h2 data-t="gl">Gallery</h2><div class="reel"><div class="filmstrip" id="mas"></div></div></section>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo"><button id="lx" aria-label="Close">×</button><div id="lc"></div></div>
+
+<section id="closing" class="rv">
+  <h2 data-t="cl">See you there.</h2>
+  <p data-t="clp">Your presence is the gift. Please let us know if you can make it.</p>
+  <div class="rs"><button class="btn solid" id="yes" data-t="yes">I’ll be there</button><button class="btn alt" id="no" data-t="no">Can’t make it</button></div>
+  <div class="pax" id="pax" hidden><span data-t="how">How many people in total?</span><div><button type="button" id="pm" aria-label="Fewer">−</button><b id="pn">1</b><button type="button" id="pp" aria-label="More">+</button></div><button class="btn solid" id="send" data-t="send">Confirm</button></div>
+  <div style="margin:1.6rem auto 0"><textarea id="wt" maxlength="500" rows="4" aria-label="Wish"></textarea><small id="wc">0/500</small><p style="margin-top:.8rem"><button class="btn alt" id="wish" data-t="ws">Send wish</button></p><p id="msg" role="status"></p></div>
+</section>
+<section id="wishes" class="rv" hidden><h2 data-t="wh">Wishes</h2><div id="wl"></div></section>
+<section id="gift" class="rv"><h2 data-t="gf">Wedding gift</h2><p data-t="gfp">Your presence is the greatest gift. If you would also like to send a gift, you can transfer to the account below.</p><div id="giftlist"></div></section>
+<footer>Amara & Dewa · 2027</footer>
+
+<script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const CFG={
+  date:new Date('2027-03-13T10:00:00'),
+  phone:'6281234567890', // the couple’s WhatsApp number, international format, no +
+  wishes:[{n:'Budi Santoso',t:'Sample wish. Wishing you both a lifetime of laughter and a very good breakfast every day.'},{n:'Jane Lee',t:'Sample wish. Congratulations, we can’t wait to celebrate with you!'}], // sample wishes: replace with real ones from the admin console
+  gifts:[{bank:'BCA',name:'Amara Putri',no:'1234567890'},{bank:'Mandiri',name:'Dewa Pratama',no:'0987654321'}], // sample accounts: replace with real ones
+  video:{src:'',poster:'',link:''}, // src: small mp4 as data URI; link: YouTube or Drive page
+  album:[{g:'linear-gradient(160deg,#7f9f7b,#a9bea6)',r:'3/4'},{g:'linear-gradient(160deg,#22382c,#6d7d72)',r:'1/1'},{g:'linear-gradient(160deg,#516c54,#4d654f)',r:'4/5'},{g:'linear-gradient(160deg,#a9bea6,#688567)',r:'3/2'},{g:'linear-gradient(160deg,#6d7d72,#7f9f7b)',r:'2/3'},{g:'linear-gradient(160deg,#4d654f,#22382c)',r:'1/1'},{g:'linear-gradient(160deg,#688567,#516c54)',r:'3/4'},{g:'linear-gradient(160deg,#7f9f7b,#a9bea6)',r:'4/3'},{g:'linear-gradient(160deg,#22382c,#6d7d72)',r:'4/5'}],
+  // Add real photos later: replace each item with {src:'data:image/...', cap:'...'}
+  photos:[
+    {cap:'How we met',g:'linear-gradient(160deg,#516c54,#4d654f)'},
+    {cap:'The first trip',g:'linear-gradient(160deg,#a9bea6,#688567)'},
+    {cap:'The question',g:'linear-gradient(160deg,#6d7d72,#7f9f7b)'},
+    {cap:'Our people',g:'linear-gradient(160deg,#4d654f,#22382c)'},
+    {cap:'Next chapter',g:'linear-gradient(160deg,#688567,#516c54)'}
+  ]
+};
+Object.assign(CFG,{"date":new Date("2027-03-13T10:00:00"),"gifts":[{"bank":"BCA","name":"Amara Putri","no":"1234567890"}]});
+const $=s=>document.querySelector(s);
+
+// Guest name from link: page-link#Budi-Santoso  (or ?to=Budi%20Santoso)
+// Link format: page#Budi-Santoso--id  (or --en). Language also follows the phone setting.
+let code='',L=(navigator.language||'en').toLowerCase().startsWith('id')?'id':'en',GN='';
+const T={
+en:{wed:'The wedding of',dear:'Dear',open:'Open invitation',date:'Saturday, 13 March 2027',h:'We’re getting married.',hp:'Together with our families, we would love for you to be there.',cd:'Counting down',when:'When',where:'Where',dress:'Dress',w:'Saturday, 13 March 2027<small>Ceremony 10:00 · Reception 12:00</small>',v:'Your Venue Name<small>Street address, City</small>',d:'Warm neutrals<small>Mocha, sand, clay, cream</small>',map:'Open in Maps',gal:'Our story, so far',cl:'See you there.',clp:'Your presence is the gift. Please let us know if you can make it.',yes:'I’ll be there',no:'Can’t make it',how:'How many people in total?',send:'Confirm on WhatsApp',wh:'Wishes from our guests',wb:'Send us a wish',gf:'Wedding gift',gfp:'Your presence is the greatest gift. If you would also like to send a gift, you can transfer to the account below.',copy:'Copy number',copied:'Copied',fl:'The film',gl:'Gallery',vph:'Your video goes here',vl:'Watch the full video',guest:'Beloved Guest',u:['days','hours','minutes','seconds'],caps:['How we met','The first trip','The question','Our people','Next chapter'],story:['Write a few lines about the day you first met: where it was, what you remember, and who spoke first.','The first trip together. Add one small detail that only the two of you remember.','The proposal, in your own words: where you were and what was said.','A line about the families and friends who brought you both to this day.','What you look forward to next, and why you want your guests to be part of it.'],introK:'The wedding',introH:'Together with our families',introP:'With joy we invite you to celebrate the beginning of our life together.',manK:'The groom',manP:'Dewa is the calm one: early to rise, always the first to make tea, and the last to leave the table.',manF:'Son of Mr. &amp; Mrs. …',womanK:'The bride',womanP:'Amara notices the small things — good bread, old postcards, and the exact moment the light changes.',womanF:'Daughter of Mr. &amp; Mrs. …',lang:'ID'},
+id:{wed:'Pernikahan',dear:'Yth.',open:'Buka undangan',date:'Sabtu, 13 Maret 2027',h:'Kami akan menikah.',hp:'Bersama keluarga, kami sangat berharap Anda dapat hadir.',cd:'Hitung mundur',when:'Kapan',where:'Di mana',dress:'Busana',w:'Sabtu, 13 Maret 2027<small>Upacara 10.00 · Resepsi 12.00</small>',v:'Nama Tempat Anda<small>Alamat, Kota</small>',d:'Warna hangat<small>Mocha, pasir, terakota, krem</small>',map:'Buka di Peta',gal:'Kisah kami',cl:'Sampai jumpa.',clp:'Kehadiran Anda adalah hadiah terbaik. Mohon kabari kami jika bisa hadir.',yes:'Saya akan hadir',no:'Tidak bisa hadir',how:'Berapa orang yang akan hadir?',send:'Konfirmasi lewat WhatsApp',wh:'Ucapan dari para tamu',wb:'Kirim ucapan',gf:'Hadiah pernikahan',gfp:'Kehadiran Anda adalah hadiah terbaik. Jika ingin memberikan tanda kasih, Anda dapat mengirimkannya ke rekening berikut.',copy:'Salin nomor',copied:'Tersalin',fl:'Cuplikan film',gl:'Galeri',vph:'Video Anda di sini',vl:'Tonton video lengkap',guest:'Tamu Terhormat',u:['hari','jam','menit','detik'],caps:['Pertama bertemu','Perjalanan pertama','Sebuah pertanyaan','Orang-orang kami','Babak baru'],story:['Tulis beberapa baris tentang hari pertama kalian bertemu: di mana, apa yang diingat, dan siapa yang menyapa lebih dulu.','Perjalanan pertama bersama. Tambahkan satu detail kecil yang hanya kalian berdua ingat.','Momen lamaran, dengan kata-kata kalian sendiri: di mana dan apa yang diucapkan.','Satu kalimat untuk keluarga dan sahabat yang membawa kalian sampai hari ini.','Apa yang kalian nantikan selanjutnya, dan mengapa kalian ingin tamu menjadi bagian darinya.'],introK:'Pernikahan',introH:'Bersama keluarga kami',introP:'Dengan sukacita kami mengundang Anda merayakan awal hidup bersama kami.',manK:'Mempelai pria',manP:'Dewa adalah yang paling tenang: bangun pagi, selalu yang pertama menyeduh teh, dan yang terakhir meninggalkan meja.',manF:'Putra dari Bapak &amp; Ibu …',womanK:'Mempelai wanita',womanP:'Amara memperhatikan hal-hal kecil — roti yang hangat, kartu pos lama, dan saat cahaya berubah.',womanF:'Putri dari Bapak &amp; Ibu …',lang:'EN'}};
+Object.assign(T.en,{"date":"Saturday, 13 March 2027","w":"Saturday, 13 March 2027<small>Ceremony 10:00 · Reception 12:00</small>","v":"Your Venue Name<small>Street address, City</small>","d":"Warm neutrals<small>Mocha, sand, clay, cream</small>"});Object.assign(T.id,{"date":"Sabtu, 13 Maret 2027","w":"Sabtu, 13 Maret 2027<small>Upacara 10:00 · Resepsi 12:00</small>","v":"Your Venue Name<small>Street address, City</small>","d":"Warna hangat<small>Mocha, pasir, terakota, krem</small>"});
+function applyLang(){
+  document.documentElement.lang=L;
+  document.querySelectorAll('[data-t]').forEach(e=>e.innerHTML=T[L][e.dataset.t]);
+  document.querySelectorAll('.cp').forEach((e,i)=>e.textContent=T[L].caps[i]||'');
+  document.querySelectorAll('.sp').forEach((e,i)=>e.textContent=T[L].story[i]||'');
+  $('#lang').textContent=T[L].lang;$('#guest').textContent=GN||T[L].guest;tick();
+}
+function parse(){code=(new URLSearchParams(location.search).get('c')||'').trim();applyLang()}
+const M={en:{y:(n,p)=>`Hello Amara & Dewa, this is ${n}. I will attend the wedding with ${p} ${p>1?'people':'person'} in total.`,n:n=>`Hello Amara & Dewa, this is ${n}. I’m sorry I can’t attend. Congratulations!`,w:n=>`Hello Amara & Dewa, this is ${n}. My wish for you: `},id:{y:(n,p)=>`Halo Amara & Dewa, saya ${n}. Saya akan hadir bersama total ${p} orang.`,n:n=>`Halo Amara & Dewa, saya ${n}. Mohon maaf, saya tidak dapat hadir. Selamat ya!`,w:n=>`Halo Amara & Dewa, saya ${n}. Ucapan saya untuk kalian: `}};
+$('#lang').onclick=()=>{L=L==='en'?'id':'en';applyLang()};
+addEventListener('hashchange',parse);
+
+const au=new Audio('assets/music.mp3');au.loop=true;au.onerror=()=>{$('#music').hidden=true};
+function play(){au.play().then(()=>$('#music').classList.add('on')).catch(()=>{})}
+function stop(){au.pause();$('#music').classList.remove('on')}
+$('#music').onclick=()=>au.paused?play():stop();
+
+$('#open').onclick=()=>{$('#cover').classList.add('open');document.body.classList.remove('locked');scrollTo(0,0);play()};
+
+// Countdown
+function tick(){
+  let d=Math.max(0,CFG.date-new Date()),s=Math.floor(d/1e3),
+  v=[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60],l=T[L].u;
+  $('#count').innerHTML=v.map((x,i)=>`<div>${x}<small>${l[i]}</small></div>`).join('');
+}
+tick();setInterval(tick,1000);
+
+// Carousel
+const tr=$('#track'),dt=$('#dots');
+CFG.photos.forEach((p,i)=>{
+  const c=document.createElement('div');c.className='slide';
+  c.innerHTML=`<div class="card" style="--g:${p.g||'#4a3028'}">${p.src?`<img src="${p.src}" alt="">`:''}</div><div class="st"><h3 class="cp"></h3><p class="sp"></p></div>`;
+  tr.appendChild(c);dt.appendChild(document.createElement('i'));
+});
+function dots(){const cs=[...tr.children],mid=tr.scrollLeft+tr.clientWidth/2;
+  let k=0,b=1e9;cs.forEach((c,i)=>{const d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid);if(d<b){b=d;k=i}});
+  [...dt.children].forEach((e,i)=>e.classList.toggle('on',i===k))}
+tr.addEventListener('scroll',dots,{passive:true});dots();
+
+// Reveal
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+const vd=$('#vid');
+if(CFG.video.src){const v=document.createElement('video');v.controls=true;v.playsInline=true;v.preload='metadata';if(CFG.video.poster)v.poster=CFG.video.poster;v.src=CFG.video.src;vd.appendChild(v)}
+else vd.innerHTML='<span class="pl" data-t="vph">Your video goes here</span>';
+if(CFG.video.link){$('#vl').innerHTML='<p style="margin-top:1rem"><a class="btn alt" target="_blank" rel="noopener" data-t="vl">Watch the full video</a></p>';$('#vl a').href=CFG.video.link}
+const ms=$('#mas'),lb=$('#lb'),lc=$('#lc');
+// Contact-sheet filmstrip: uniform 4/5 frames, frame numbers, snap scrolling
+CFG.album.forEach((a,i)=>{const d=document.createElement('div');d.className='frame';d.tabIndex=0;d.setAttribute('role','button');
+  d.setAttribute('aria-label','Photo '+(i+1)+' of '+CFG.album.length);d.style.setProperty('--g',a.g||'#4a3028');
+  const pic=()=>{if(!a.src)return null;const im=document.createElement('img');im.src=a.src;im.alt='';im.loading='lazy';return im};
+  const p0=pic();if(p0)d.appendChild(p0);
+  const num=document.createElement('span');num.className='fn';num.textContent=String(i+1).padStart(2,'0');d.appendChild(num);
+  const open=()=>{lc.innerHTML='';const b=document.createElement('div');b.className='big';b.style.setProperty('--g',a.g||'#4a3028');b.style.aspectRatio=a.r||'3/4';const p=pic();if(p)b.appendChild(p);lc.appendChild(b);lb.hidden=false;$('#lx').focus()};
+  d.onclick=open;d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}};ms.appendChild(d)});
+if(!CFG.gifts.length)$('#gift').hidden=true;
+CFG.gifts.forEach(a=>{const r=document.createElement('div');r.className='acct';
+  const l=document.createElement('div'),b=document.createElement('b'),n=document.createElement('span'),s=document.createElement('span');
+  b.textContent=a.bank;n.className='no';n.textContent=a.no;s.textContent=a.name;l.append(b,n,s);
+  const c=document.createElement('button');c.className='btn alt';c.dataset.t='copy';c.textContent='Copy number';
+  c.onclick=()=>{const done=()=>{c.textContent=T[L].copied;setTimeout(()=>{c.innerHTML=T[L].copy},1500)};(navigator.clipboard?navigator.clipboard.writeText(a.no):Promise.reject()).then(done).catch(()=>prompt('Copy',a.no))};
+  r.append(l,c);$('#giftlist').appendChild(r)});
+$('#lx').onclick=()=>{lb.hidden=true};lb.onclick=e=>{if(e.target===lb)lb.hidden=true};addEventListener('keydown',e=>{if(e.key==='Escape')lb.hidden=true});
+if(CFG.wishes.length){$('#wishes').hidden=false;CFG.wishes.forEach(w=>{const q=document.createElement('blockquote');q.className='wq';const p=document.createElement('p');p.textContent=w.t;const c=document.createElement('cite');c.textContent=w.n;q.append(p,c);$('#wl').appendChild(q)})}
+// ---- Supabase wiring ----
+CFG.wishes=[];
+Object.assign(T.en,{send:'Confirm',ws:'Send wish',ok:'Thank you, see you there!',no2:'Thank you for letting us know.',pl:'Please use your personal link to RSVP.',err:'Something went wrong. Please try again.',wsent:'Wish sent. Thank you!',setup:'Setup not finished: add your Supabase URL and anon key in config.js'});
+Object.assign(T.id,{send:'Konfirmasi',ws:'Kirim ucapan',ok:'Terima kasih, sampai jumpa!',no2:'Terima kasih sudah memberi kabar.',pl:'Gunakan tautan pribadi Anda untuk konfirmasi kehadiran.',err:'Terjadi kesalahan. Silakan coba lagi.',wsent:'Ucapan terkirim. Terima kasih!',setup:'Pengaturan belum selesai: isi URL dan anon key Supabase di config.js'});
+const A=window.APP_CONFIG||{},ok=A.SUPABASE_URL&&!/YOUR-/.test(A.SUPABASE_URL)&&window.supabase;
+let sb,G=null,pax=1,busy=0,mk='';
+const say=k=>{mk=k;$('#msg').textContent=k?T[L][k]:''};
+const dis=()=>['yes','no','send','wish','wt'].forEach(i=>$('#'+i).disabled=true);
+const _al=applyLang;applyLang=function(){_al();$('#wt').placeholder=L==='id'?'Tulis ucapan Anda (maks 500)':'Write your wish (max 500)';if(mk)say(mk)};
+async function run(b,fn,args,done){if(busy||!G)return false;busy=1;b.disabled=true;let r=false;
+  try{const{error}=await sb.rpc(fn,args);if(error)throw error;say(done);r=true}catch(e){say('err')}busy=0;b.disabled=false;return r}
+$('#yes').onclick=()=>{$('#pax').hidden=false};
+$('#pm').onclick=()=>{pax=Math.max(1,pax-1);$('#pn').textContent=pax};
+$('#pp').onclick=()=>{pax=Math.min(20,pax+1);$('#pn').textContent=pax};
+$('#send').onclick=e=>run(e.currentTarget,'submit_rsvp',{p_code:code,p_rsvp:'attending',p_pax:pax},'ok');
+$('#no').onclick=e=>run(e.currentTarget,'submit_rsvp',{p_code:code,p_rsvp:'declined',p_pax:0},'no2');
+$('#wt').oninput=()=>{$('#wc').textContent=$('#wt').value.length+'/500'};
+$('#wish').onclick=async e=>{const m=$('#wt').value.trim();if(!m)return;if(await run(e.currentTarget,'submit_wish',{p_code:code,p_message:m},'wsent'))wall()};
+async function wall(){if(!sb)return;try{const{data}=await sb.from('wishes').select('name,message,created_at').order('created_at',{ascending:false}).limit(50);
+  const w=$('#wl');w.textContent='';(data||[]).forEach(x=>{const q=document.createElement('blockquote');q.className='wq';const p=document.createElement('p');p.textContent=x.message;const c=document.createElement('cite');c.textContent=x.name;q.append(p,c);w.appendChild(q)});
+  $('#wishes').hidden=!(data&&data.length)}catch(e){}}
+async function init(){
+  if(!ok){dis();say('setup');return}
+  sb=supabase.createClient(A.SUPABASE_URL,A.SUPABASE_ANON_KEY);
+  if(code){try{const{data,error}=await sb.rpc('open_invitation',{p_code:code});if(error)throw error;G=data}catch(e){}}
+  if(G){if(G.lang==='en'||G.lang==='id')L=G.lang;GN=(G.name||'').replace(/[<>]/g,'');if(G.pax>0){pax=G.pax;$('#pn').textContent=pax}
+    if(G.rsvp==='attending')$('#pax').hidden=false;if(G.wish){$('#wt').value=G.wish;$('#wc').textContent=G.wish.length+'/500'}}
+  else{dis();say('pl')}
+  applyLang();wall();setInterval(()=>{if(!document.hidden)wall()},3e4)}
+
+
+// ---- photo slots: cover / groom / bride ----
+(function(){
+  var map={cover:CFG.cover,man:CFG.man,woman:CFG.woman};
+  Object.keys(map).forEach(function(k){
+    var src=map[k]; if(!src) return;
+    document.querySelectorAll('[data-photo="'+k+'"]').forEach(function(el){
+      el.classList.add('has-photo');
+      el.style.backgroundImage="url('"+src+"')";
+      el.style.backgroundSize='cover';
+      el.style.backgroundPosition='center';
+    });
+    if(k==='cover'){
+      var c=document.getElementById('cover'); if(!c) return;
+      var b=c.querySelector('.cover-bg');
+      if(!b){b=document.createElement('div');b.className='cover-bg';b.setAttribute('aria-hidden','true');c.insertBefore(b,c.firstChild)}
+      b.style.backgroundImage="url('"+src+"')";
+      c.classList.add('has-photo');
+    }
+  });
+})();
+
+parse();init();
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Wedding admin</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://*.supabase.co">
+<style>:root{--bg:#f6efe7;--ink:#2b1d18;--mute:#7b6558;--clay:#a9573e;--line:#dccdbf;--card:#fff}
+@media(prefers-color-scheme:dark){:root{--bg:#1f1512;--ink:#f0e6db;--mute:#b8a498;--clay:#d38a6e;--line:#4a3a33;--card:#2a1d19}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.4 system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:1rem;max-width:1000px;margin-inline:auto}
+[hidden]{display:none!important}button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:.5rem;width:100%}
+button{border:1px solid var(--ink);background:none;border-radius:99px;padding:.4rem .9rem;cursor:pointer}button.p{background:var(--ink);color:var(--bg)}button:disabled{opacity:.5}
+:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem;margin:1rem 0}.g{display:grid;gap:.6rem}.r{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.st{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:.6rem}.st div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.6rem;text-align:center}.st b{display:block;font-size:1.6rem}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:680px}td,th{text-align:left;padding:.5rem;border-bottom:1px solid var(--line);vertical-align:top}
+.bd{font-size:.75rem;border:1px solid var(--line);border-radius:99px;padding:.1rem .5rem;margin-right:.3rem}.ch.on{background:var(--ink);color:var(--bg)}
+#toast{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:.6rem 1rem;border-radius:99px}</style></head><body>
+<h1>Wedding admin</h1><p id="note" hidden></p>
+<form id="login" class="card g" hidden><input id="em" type="email" placeholder="Email" required autocomplete="username"><input id="pw" type="password" placeholder="Password" required autocomplete="current-password"><button class="p">Log in</button></form>
+<main id="app" hidden>
+<div class="r"><button id="out">Log out</button></div><div class="st" id="st"></div>
+<section class="card g"><h2>Add guest</h2><form id="add" class="r"><input id="an" placeholder="Name" required style="flex:2"><input id="ap" placeholder="Phone" required style="flex:2"><select id="al" style="flex:1"><option value="id">ID</option><option value="en">EN</option></select><button class="p">Add</button></form>
+<details><summary>Bulk import</summary><textarea id="bk" rows="5" placeholder="name, phone, id|en  (one per line, tab also works)"></textarea><div class="r" style="margin-top:.5rem"><button id="bp">Preview</button><button id="bi" class="p" disabled>Import</button></div><div id="bv"></div></details></section>
+<section class="card"><h2>Guests</h2><div class="r"><input id="q" placeholder="Search" style="flex:1"><button id="csv">Export CSV</button></div><div class="r" id="fl" style="margin:.6rem 0"></div>
+<p style="color:var(--mute)">WhatsApp opens with the message ready; you still tap Send there. wa.me never sends by itself.</p><div class="tw"><table><thead><tr><th>Name</th><th>Phone</th><th>Lang</th><th>Status</th><th>RSVP</th><th></th></tr></thead><tbody id="tb"></tbody></table></div></section>
+<section class="card"><h2>Wishes</h2><div id="wl" class="g"></div></section>
+<section class="card g"><h2>Settings</h2><label>Couple WhatsApp<input id="sp"></label><label>Base URL<input id="sb"></label><label>Template EN ({name} {link})<textarea id="te" rows="3"></textarea></label><label>Template ID ({name} {link})<textarea id="ti" rows="3"></textarea></label>
+<div class="r"><button id="ss" class="p">Save</button><select id="pg" style="flex:1"></select><button id="pv">Preview message</button></div><pre id="po" style="white-space:pre-wrap"></pre></section></main>
+<dialog id="ed"><form method="dialog" class="g" id="ef"><input id="en" placeholder="Name" required><input id="ep" placeholder="Phone" required><select id="el"><option value="id">ID</option><option value="en">EN</option></select><select id="er"><option value="pending">Pending</option><option value="attending">Attending</option><option value="declined">Declined</option></select><input id="ex" type="number" min="0" max="20" placeholder="Headcount"><div class="r"><button class="p">Save</button><button type="button" id="ec">Cancel</button></div></form></dialog>
+<div id="toast" hidden role="status"></div>
+<script src="../config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const A=window.APP_CONFIG||{},SLUG=A.SLUG||'',$=s=>document.querySelector(s),h=(t,p,...k)=>{const e=document.createElement(t);Object.assign(e,p||{});e.append(...k);return e};
+const toast=m=>{const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,3500)};
+const nph=s=>{let d=String(s||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='62'+d.slice(1);else if(d.startsWith('8'))d='62'+d;return d},okp=d=>/^[0-9]{8,16}$/.test(d);
+const code=()=>{const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789',a=crypto.getRandomValues(new Uint8Array(10));return[...a].map(x=>c[x%c.length]).join('')};
+const FL=[['all','All'],['new','Not sent'],['sent','Sent'],['opened','Opened'],['attending','Attending'],['declined','Declined'],['pending','Waiting']];
+let sb,S={g:[],w:[],s:{},sum:{},f:'all',q:'',wid:null},tm;
+const baseUrl=b=>(b||'').replace(/\/+$/,'');
+const link=g=>`${baseUrl(S.s.base_url)}/${SLUG}/?c=${g.code}`;
+const msgFor=g=>(S.s['template_'+g.lang]||'').replaceAll('{name}',g.name).replaceAll('{link}',link(g));
+const fmt=d=>d?new Date(d).toLocaleString():'';
+async function guard(b,fn){if(b)b.disabled=true;try{await fn()}catch(e){toast(e.message||'Error')}if(b)b.disabled=false}
+async function load(){
+  if(!S.wid) return;
+  const[g,w,s,m]=await Promise.all([
+    sb.from('guests').select('*').eq('wedding_id',S.wid).order('created_at',{ascending:false}),
+    sb.from('wishes').select('*').eq('wedding_id',S.wid).order('created_at',{ascending:false}),
+    sb.from('settings').select('*').eq('id',1).eq('wedding_id',S.wid).maybeSingle(),
+    sb.from('guest_summary').select('*').maybeSingle()
+  ]);
+  const er=g.error||w.error||s.error||m.error;if(er)throw er;S.g=g.data;S.w=w.data;S.s=s.data||{};S.sum=m.data||{};draw()}
+const refresh=()=>load().catch(e=>toast(e.message));
+function draw(){const st=$('#st');st.textContent='';[['total_guests','Guests'],['sent','Sent'],['opened','Opened'],['attending','Attending'],['declined','Declined'],['waiting','Waiting'],['people_coming','People coming']].forEach(([k,l])=>st.append(h('div',{},h('b',{textContent:S.sum[k]??0}),l)));
+ const fl=$('#fl');fl.textContent='';FL.forEach(([k,l])=>fl.append(h('button',{className:'ch'+(S.f===k?' on':''),textContent:l,onclick:()=>{S.f=k;draw()}})));
+ const q=S.q.toLowerCase(),tb=$('#tb');tb.textContent='';
+ const gv=S.g.filter(g=>(!q||g.name.toLowerCase().includes(q)||g.phone.includes(q))&&(S.f==='all'||(S.f==='new'&&g.sent_status!=='sent')||(S.f==='sent'&&g.sent_status==='sent')||(S.f==='opened'&&g.opened_at)||g.rsvp===S.f));
+ if(!gv.length)tb.append(h('tr',{},h('td',{colSpan:6,textContent:S.g.length?'No guests match this filter.':'No guests yet — add one above or use Bulk import.',style:'color:var(--mute);text-align:center;padding:1.5rem'})));
+ gv.forEach(g=>{
+  const b=(t)=>h('span',{className:'bd',textContent:t});
+  const act=h('td',{className:'r'},h('button',{textContent:g.sent_status==='sent'?'Resend':'Send on WhatsApp',onclick:e=>guard(e.currentTarget,async()=>{window.open(`https://wa.me/${nph(g.phone)}?text=${encodeURIComponent(msgFor(g))}`,'_blank','noopener');const{error}=await sb.from('guests').update({sent_status:'sent',sent_at:new Date().toISOString()}).eq('id',g.id).eq('wedding_id',S.wid);if(error)throw error;await load()})}),
+   h('button',{textContent:'Copy link',onclick:()=>navigator.clipboard.writeText(link(g)).then(()=>toast('Link copied'),()=>prompt('Copy',link(g)))}),
+   h('button',{textContent:'Edit',onclick:()=>edit(g)}),
+   h('button',{textContent:'Delete',onclick:e=>{if(confirm('Delete '+g.name+'?'))guard(e.currentTarget,async()=>{const{error}=await sb.from('guests').delete().eq('id',g.id).eq('wedding_id',S.wid);if(error)throw error;await load()})}}));
+  tb.append(h('tr',{},h('td',{textContent:g.name}),h('td',{textContent:g.phone}),h('td',{textContent:g.lang.toUpperCase()}),h('td',{},g.sent_status==='sent'?b('Sent'):b('Not sent'),g.opened_at?b(`Opened ×${g.open_count} · ${fmt(g.last_opened_at)}`):''),h('td',{textContent:g.rsvp+(g.rsvp==='attending'?' · '+g.pax:'')}),act))});
+ const wl=$('#wl');wl.textContent='';if(!S.w.length)wl.append(h('div',{textContent:'No wishes yet.',style:'color:var(--mute);padding:1rem 0'}));S.w.forEach(w=>wl.append(h('div',{className:'r'},h('b',{textContent:w.name}),h('span',{textContent:w.message,style:'flex:1'}),h('small',{textContent:fmt(w.created_at)}),
+  h('button',{textContent:w.is_visible?'Hide':'Show',onclick:e=>guard(e.currentTarget,async()=>{const{error}=await sb.from('wishes').update({is_visible:!w.is_visible}).eq('id',w.id).eq('wedding_id',S.wid);if(error)throw error;await load()})}),
+  h('button',{textContent:'Delete',onclick:e=>{if(confirm('Delete wish?'))guard(e.currentTarget,async()=>{const{error}=await sb.from('wishes').delete().eq('id',w.id).eq('wedding_id',S.wid);if(error)throw error;await load()})}}))));
+ if(!$('#sp').dataset.f){$('#sp').value=S.s.couple_phone||'';$('#sb').value=S.s.base_url||'';$('#te').value=S.s.template_en||'';$('#ti').value=S.s.template_id||'';$('#sp').dataset.f=1}
+ const pg=$('#pg'),v=pg.value;pg.textContent='';S.g.forEach(g=>pg.append(h('option',{value:g.id,textContent:g.name})));pg.value=v}
+function edit(g){$('#en').value=g.name;$('#ep').value=g.phone;$('#el').value=g.lang;$('#er').value=g.rsvp;$('#ex').value=g.pax;$('#ed').showModal();
+ $('#ef').onsubmit=()=>{const p=nph($('#ep').value);if(!okp(p)){toast('Invalid phone');return false}const r=$('#er').value;
+  guard(null,async()=>{const{error}=await sb.from('guests').update({name:$('#en').value.trim(),phone:p,lang:$('#el').value,rsvp:r,pax:r==='attending'?Math.max(1,+$('#ex').value||1):0}).eq('id',g.id).eq('wedding_id',S.wid);if(error)throw error;await load()})}}
+$('#ec').onclick=()=>$('#ed').close();$('#q').oninput=e=>{S.q=e.target.value;draw()};
+$('#add').onsubmit=e=>{e.preventDefault();const p=nph($('#ap').value);if(!okp(p))return toast('Invalid phone');guard(e.submitter,async()=>{const{error}=await sb.from('guests').insert({code:code(),name:$('#an').value.trim(),phone:p,lang:$('#al').value,wedding_id:S.wid});if(error)throw error;e.target.reset();toast('Guest added');await load()})};
+let bad=[],rows=[];
+$('#bp').onclick=()=>{rows=[];const v=$('#bv');v.textContent='';$('#bk').value.split('\n').map(x=>x.trim()).filter(Boolean).forEach((l,i)=>{const[n,ph,lg]=l.split(/\t|,/).map(x=>x.trim());const p=nph(ph),lang=(lg||'id').toLowerCase();let er=!n?'name missing':!okp(p)?'bad phone':!['id','en'].includes(lang)?'lang must be id or en':'';
+ v.append(h('div',{textContent:`${i+1}. ${n||''} · ${p} · ${lang}${er?' — '+er:''}`,style:er?'color:#c0392b':''}));if(!er)rows.push({code:code(),name:n,phone:p,lang,wedding_id:S.wid})});$('#bi').disabled=!rows.length};
+$('#bi').onclick=e=>guard(e.currentTarget,async()=>{const{error}=await sb.from('guests').insert(rows);if(error)throw error;toast(rows.length+' guests imported');$('#bk').value='';$('#bv').textContent='';rows=[];e.target.disabled=true;await load()});
+$('#csv').onclick=()=>{const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"',L=[['name','phone','lang','link','sent','opened','rsvp','pax'].join(',')];S.g.forEach(g=>L.push([g.name,g.phone,g.lang,link(g),g.sent_status,g.opened_at||'',g.rsvp,g.pax].map(q).join(',')));
+ const a=h('a',{href:URL.createObjectURL(new Blob([L.join('\n')],{type:'text/csv'})),download:'guests.csv'});a.click();URL.revokeObjectURL(a.href)};
+$('#ss').onclick=e=>guard(e.currentTarget,async()=>{const base=$('#sb').value.trim().split(/[?#]/)[0].replace(/\/+$/,'');const{error}=await sb.from('settings').update({couple_phone:nph($('#sp').value),base_url:base,template_en:$('#te').value,template_id:$('#ti').value}).eq('id',1).eq('wedding_id',S.wid);if(error)throw error;$('#sp').dataset.f='';toast('Settings saved');await load()});
+$('#pv').onclick=()=>{const g=S.g.find(x=>x.id==$('#pg').value);$('#po').textContent=g?msgFor(g):'Add a guest first.'};
+async function enter(){
+  // Look up wedding_id from slug
+  const{data:wdata,error:werr}=await sb.from('weddings').select('id').eq('slug',SLUG).maybeSingle();
+  if(werr||!wdata){await sb.auth.signOut();$('#app').hidden=true;$('#login').hidden=false;$('#note').hidden=false;$('#note').textContent='Wedding not found for slug: '+SLUG;return}
+  S.wid=wdata.id;
+  const{data,error}=await sb.rpc('am_i_admin');if(error||!data){await sb.auth.signOut();$('#app').hidden=true;$('#login').hidden=false;$('#note').hidden=false;$('#note').textContent='This account is not an admin.';return}
+  $('#note').hidden=true;$('#login').hidden=true;$('#app').hidden=false;await refresh();clearInterval(tm);tm=setInterval(()=>{if(!document.hidden)refresh()},3e4)}
+$('#login').onsubmit=e=>{e.preventDefault();guard(e.submitter,async()=>{const{error}=await sb.auth.signInWithPassword({email:$('#em').value,password:$('#pw').value});if(error)throw error;$('#pw').value='';await enter()})};
+$('#out').onclick=async()=>{await sb.auth.signOut();clearInterval(tm);$('#app').hidden=true;$('#login').hidden=false};
+(async()=>{if(!A.SUPABASE_URL||/YOUR-/.test(A.SUPABASE_URL)||!window.supabase){$('#note').hidden=false;$('#note').textContent='Setup not finished: add your Supabase URL and anon key in config.js';return}
+ if(!SLUG){$('#note').hidden=false;$('#note').textContent='Setup not finished: slug missing from config.js';return}
+ sb=supabase.createClient(A.SUPABASE_URL,A.SUPABASE_ANON_KEY,{auth:{persistSession:true}});const{data}=await sb.auth.getSession();if(data.session)await enter();else $('#login').hidden=false})();
+</script></body></html>

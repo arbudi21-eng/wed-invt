@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Wedding Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #FAF7F4;
+  --bg2:   #F2EDE7;
+  --ink:   #1A1210;
+  --mute:  #8B6B5A;
+  --sand:  #C9A98A;
+  --line:  #DDD5CC;
+  --card:  #FFFFFF;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:   #130E0C;
+    --bg2:  #1C1511;
+    --ink:  #F0E8DF;
+    --mute: #9A8070;
+    --sand: #A8886A;
+    --line: #2E2320;
+    --card: #1C1511;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0 }
+html { scroll-behavior: smooth }
+body {
+  font: 400 15px/1.6 var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── Sticky header ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: .75rem 2rem;
+}
+.site-header h1 {
+  font: 300 1.5rem/1 var(--serif);
+  letter-spacing: .01em;
+}
+.site-header h1 em {
+  font-style: italic;
+  color: var(--mute);
+}
+.header-actions { display: flex; gap: .6rem; align-items: center; flex-shrink: 0 }
+
+/* ── Page shell ── */
+.page { max-width: 1120px; margin: 0 auto; padding: 2.5rem 2rem 5rem }
+
+/* ── Intro ── */
+.intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 4rem;
+  padding: 2rem 0 2.5rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 3rem;
+}
+.intro-title {
+  font: 300 clamp(2.4rem, 5vw, 4rem)/1.05 var(--serif);
+  letter-spacing: -.01em;
+  grid-column: 1;
+  align-self: end;
+}
+.intro-title em { font-style: italic; color: var(--mute) }
+.intro-desc {
+  grid-column: 2;
+  color: var(--mute);
+  font-size: .95rem;
+  line-height: 1.65;
+  align-self: end;
+  max-width: 42ch;
+}
+@media (max-width: 680px) {
+  .intro { grid-template-columns: 1fr }
+  .intro-title { grid-column: 1 }
+  .intro-desc { grid-column: 1; max-width: none }
+}
+
+/* ── Step layout ── */
+.step {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 0 2rem;
+  margin-bottom: 3rem;
+}
+.step-label {
+  padding-top: .15rem;
+  text-align: right;
+}
+.step-num {
+  display: block;
+  font: 300 2.2rem/1 var(--serif);
+  color: var(--sand);
+  letter-spacing: -.02em;
+}
+.step-name {
+  display: block;
+  font-size: .78rem;
+  color: var(--mute);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-top: .2rem;
+}
+.step-body { min-width: 0 }
+.step-body h2 {
+  font: 300 1.3rem/1.2 var(--serif);
+  margin-bottom: 1.2rem;
+}
+@media (max-width: 600px) {
+  .step { grid-template-columns: 1fr }
+  .step-label { text-align: left; display: flex; align-items: baseline; gap: .6rem; margin-bottom: .5rem }
+  .step-num { font-size: 1.4rem }
+}
+
+/* ── Design picker ── */
+#grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+.dc {
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--card);
+  transition: border-color .15s;
+  outline: none;
+}
+.dc:hover { border-color: var(--sand) }
+.dc.on { border-color: var(--ink); border-width: 2px }
+.dc:focus-visible { outline: 2px solid var(--sand); outline-offset: 2px }
+.dc .fr { height: 290px; overflow: hidden; position: relative }
+.dc iframe {
+  width: 390px; height: 844px; border: 0;
+  transform: scale(.375); transform-origin: 0 0;
+  pointer-events: none;
+}
+.dc .meta {
+  padding: .55rem .7rem;
+  font-size: .78rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  gap: .5rem;
+}
+.dc .meta span { color: var(--mute) }
+.dc.on .meta span { color: var(--ink); font-weight: 500 }
+.dc .meta a { color: var(--sand); text-decoration: none; flex-shrink: 0 }
+.dc .meta a:hover { text-decoration: underline }
+.dc.on::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ── Fields ── */
+.fields {
+  display: grid;
+  gap: .9rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+.fields.two { grid-template-columns: 1fr 1fr }
+.fields.three { grid-template-columns: 1fr 1fr 1.3fr }
+label {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  font-size: .82rem;
+  color: var(--mute);
+}
+label span { color: var(--ink); font-size: .82rem }
+input, textarea, select {
+  width: 100%;
+  font: 15px/1.4 var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: .5rem .6rem;
+  outline: none;
+  transition: border-color .15s;
+}
+input:focus, textarea:focus { border-color: var(--sand) }
+textarea { resize: vertical; min-height: 90px }
+input[type="file"] { font-size: .82rem; cursor: pointer }
+
+/* ── Gift rows ── */
+.gift-row {
+  display: grid;
+  gap: .6rem;
+  grid-template-columns: 1fr 1fr 1.2fr auto;
+  align-items: start;
+  margin-bottom: .6rem;
+}
+.gift-row input { margin: 0 }
+.remove-gift {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--mute);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: .44rem .55rem;
+  margin-top: 0;
+  align-self: end;
+}
+.remove-gift:hover { border-color: var(--mute); color: var(--ink) }
+@media (max-width: 540px) {
+  .gift-row { grid-template-columns: 1fr 1fr; }
+  .gift-row input:last-of-type { grid-column: 1 / -1 }
+}
+
+/* ── Divider ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 2.5rem 0;
+}
+
+/* ── Buttons ── */
+button {
+  font: 500 .9rem var(--sans);
+  border-radius: 3px;
+  cursor: pointer;
+  padding: .6rem 1.2rem;
+  transition: background .15s, color .15s, border-color .15s;
+  white-space: nowrap;
+}
+.btn-ghost {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+}
+.btn-ghost:hover { border-color: var(--mute) }
+.btn-primary {
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  color: var(--bg);
+}
+.btn-primary:hover { opacity: .85 }
+.btn-add {
+  background: none;
+  border: 1px dashed var(--line);
+  color: var(--mute);
+  font-size: .85rem;
+  padding: .5rem 1rem;
+  margin-top: .2rem;
+}
+.btn-add:hover { border-color: var(--sand); color: var(--ink) }
+button:disabled { opacity: .4; cursor: not-allowed }
+:focus-visible { outline: 2px solid var(--sand); outline-offset: 2px }
+
+/* ── Footer actions ── */
+.form-footer {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  padding: 1rem 2rem;
+  display: flex;
+  gap: .8rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 -2rem;
+}
+#st {
+  font-size: .88rem;
+  color: var(--sand);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Section hint ── */
+.hint {
+  font-size: .82rem;
+  color: var(--mute);
+  margin-bottom: .9rem;
+  line-height: 1.5;
+}
+
+/* ── Supabase note ── */
+.note {
+  font-size: .82rem;
+  color: var(--mute);
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: .7rem .9rem;
+  margin-top: .8rem;
+  line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<!-- Sticky header -->
+<header class="site-header">
+  <h1>Wedding <em>Studio</em></h1>
+  <div class="header-actions">
+    <button class="btn-ghost" type="button" id="pv">Preview</button>
+    <button class="btn-primary" type="button" id="gen">Download ZIP</button>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- Intro -->
+  <div class="intro">
+    <h2 class="intro-title">Build a wedding<br><em>invitation site</em><br>in minutes.</h2>
+    <p class="intro-desc">Choose one of 13 designs, fill in the couple's details, add photos and your Supabase keys — then download a ready-to-deploy site with RSVP, gallery, music, and an admin console.</p>
+  </div>
+
+  <form id="f" onsubmit="return false">
+
+    <!-- Step 1: Design -->
+    <div class="step">
+      <div class="step-label">
+        <span class="step-num">1</span>
+        <span class="step-name">Design</span>
+      </div>
+      <div class="step-body">
+        <div id="grid" role="radiogroup" aria-label="Choose a design"></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 2: The couple -->
+    <div class="step">
+      <div class="step-label">
+        <span class="step-num">2</span>
+        <span class="step-name">The couple</span>
+      </div>
+      <div class="step-body">
+        <div class="fields">
+          <label>Partner 1 <input id="n1" value="Amara" required></label>
+          <label>Partner 2 <input id="n2" value="Dewa" required></label>
+          <label>Date <input id="dt" type="date" value="2027-03-13" required></label>
+          <label>Start time <input id="tm" type="time" value="10:00"></label>
+          <label>Ceremony time <input id="cr" value="10:00"></label>
+          <label>Reception time <input id="rc" value="12:00"></label>
+          <label>Venue name <input id="vn" placeholder="Pendopo Agung"></label>
+          <label>Address <input id="va" placeholder="Jl. Raya No. 1, Yogyakarta"></label>
+          <label>Google Maps link <input id="vm" type="url" placeholder="https://maps.google.com/?q=…"></label>
+          <label>Dress code (English) <input id="de" value="Warm neutrals"></label>
+          <label>Dress code (Indonesian) <input id="di" value="Warna hangat"></label>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 3: Gift accounts -->
+    <div class="step">
+      <div class="step-label">
+        <span class="step-num">3</span>
+        <span class="step-name">Gift</span>
+      </div>
+      <div class="step-body">
+        <p class="hint">Bank transfer accounts shown on the gift section. Leave empty to hide the section.</p>
+        <div id="gifts"></div>
+        <button type="button" class="btn-add" id="ga">+ Add account</button>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 4: Story text -->
+    <div class="step">
+      <div class="step-label">
+        <span class="step-num">4</span>
+        <span class="step-name">Story</span>
+      </div>
+      <div class="step-body">
+        <p class="hint">One line per story photo. Each line becomes the caption and text for that carousel slide. Leave blank to use the design's defaults.</p>
+        <div class="fields two" style="margin-bottom:.9rem">
+          <label>Captions — English <textarea id="ce" rows="4" placeholder="How we met&#10;The first trip&#10;The question&#10;Our people"></textarea></label>
+          <label>Captions — Indonesian <textarea id="ci" rows="4" placeholder="Pertemuan pertama&#10;Perjalanan pertama&#10;Lamaran&#10;Keluarga kami"></textarea></label>
+        </div>
+        <div class="fields two">
+          <label>Story text — English <textarea id="se" rows="4" placeholder="A short line for each slide…"></textarea></label>
+          <label>Story text — Indonesian <textarea id="si" rows="4" placeholder="Satu kalimat per slide…"></textarea></label>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 5: Media -->
+    <div class="step">
+      <div class="step-label">
+        <span class="step-num">5</span>
+        <span class="step-name">Media</span>
+      </div>
+      <div class="step-body">
+        <p class="hint">Photos are embedded as data URIs — keep each under ~500 KB for a manageable ZIP. Music must be under 3 MB.</p>
+        <div class="fields">
+          <label>Cover photo <small style="color:var(--mute);font-size:.78rem">(prewedding backdrop)</small><input id="fc" type="file" accept="image/*"></label>
+          <label>Groom photo<input id="fman" type="file" accept="image/*"></label>
+          <label>Bride photo<input id="fwoman" type="file" accept="image/*"></label>
+          <label>Story photos <small style="color:var(--mute);font-size:.78rem">(in order)</small><input id="fs" type="file" accept="image/*" multiple></label>
+          <label>Gallery photos<input id="fa" type="file" accept="image/*" multiple></label>
+          <label>Video file <small style="color:var(--mute);font-size:.78rem">(mp4, small)</small><input id="fv" type="file" accept="video/mp4"></label>
+          <label>Video link <small style="color:var(--mute);font-size:.78rem">(YouTube or Drive)</small><input id="vl" type="url" placeholder="https://youtube.com/…"></label>
+          <label>Background music <small style="color:var(--mute);font-size:.78rem">(mp3)</small><input id="fm" type="file" accept=".mp3,audio/mpeg"></label>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 6: Supabase -->
+    <div class="step">
+      <div class="step-label">
+        <span class="step-num">6</span>
+        <span class="step-name">Supabase</span>
+      </div>
+      <div class="step-body">
+        <div class="fields two">
+          <label>Project URL <input id="su" type="url" placeholder="https://xxxx.supabase.co"></label>
+          <label>Anon public key <input id="sk" autocomplete="off" placeholder="eyJ…"></label>
+        </div>
+        <p class="note">Use the <strong>anon</strong> (public) key — never the <code>service_role</code> key. The key is embedded in the generated site and will be visible to guests. Create a free project at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> and run the included SQL to set up RSVP and wishes tables.</p>
+      </div>
+    </div>
+
+    <!-- Step 7: Link preview -->
+    <div class="step">
+      <div class="step-label">
+        <span class="step-num">7</span>
+        <span class="step-name">Link</span>
+      </div>
+      <div class="step-body">
+        <p class="hint">Your unique wedding link will be available once you download the site.</p>
+        <div class="fields">
+          <label>Your link <input type="text" id="link-preview" readonly disabled style="background: var(--bg2);"></label>
+          <button class="btn-ghost" id="regenerate-suffix" style="grid-column: auto;">Regenerate suffix</button>
+        </div>
+        <p class="hint">Suffix is 6-character base32, can't be guessed. Links sent to guests use this URL.</p>
+      </div>
+    </div>
+
+    <!-- Footer actions (also in header; this anchors the status message) -->
+    <div class="form-footer">
+      <p id="st" role="status"></p>
+      <button class="btn-ghost" type="button" id="pv2">Preview</button>
+      <button class="btn-primary" type="button" id="gen2">Download ZIP</button>
+    </div>
+
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="lib/core.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const D=[
+  ['01','editorial-mocha'],['02','vellum-linen'],['03','garden-illustrated'],
+  ['04','quiet-luxe'],['05','minimal-mono'],['06','midnight-celestial'],
+  ['07','terracotta-boho'],['08','blush-romantic'],['09','emerald-deco'],
+  ['10','batik-nusantara'],['11','crimson-opulent'],['12','snow-monochrome'],
+  ['13','ocean-breeze'],['14','amber-heritage'],['15','forest-mist'],
+  ['16','rose-linen'],['17','navy-gold'],['18','palm-breeze'],
+  ['19','charcoal-ink'],['20','coral-modern'],['21','indigo-silk'],
+  ['22','moss-rust'],['23','apricot-soft'],['24','slate-periwinkle'],
+  ['25','mustard-gold'],['26','bubbling-green'],['27','lilac-romantic'],
+  ['28','ivory-berg'],['29','teal-depth'],['30','vintage-coral'],
+  ['31','javanese-manuscript'],['32','sacred-geometry'],['33','cinematic-reel']
+];
+let sel='01';
+const lines=v=>v.split('\n').map(x=>x.trim()).filter(Boolean);
+const say=m=>$('#st').textContent=m||'';
+
+// Build design picker
+D.forEach(([n,k])=>{
+  const c=document.createElement('div');
+  c.className='dc'+(n===sel?' on':'');
+  c.setAttribute('role','radio');
+  c.setAttribute('aria-checked', n===sel ? 'true' : 'false');
+  c.tabIndex=0;
+  c.dataset.n=n;
+  c.style.position='relative';
+  c.innerHTML=`<div class="fr"><iframe loading="lazy" tabindex="-1" title="${n} ${k.replace(/-/g,' ')}" src="sites/${n}-${k}/index.html"></iframe></div>`+
+    `<div class="meta"><span>${k.replace(/-/g,' ')}</span><a target="_blank" rel="noopener" href="sites/${n}-${k}/index.html">View</a></div>`;
+  const pick=()=>{
+    sel=n;
+    document.querySelectorAll('.dc').forEach(e=>{
+      const on=e===c;
+      e.classList.toggle('on',on);
+      e.setAttribute('aria-checked',on);
+    });
+  };
+  c.onclick=e=>{if(e.target.tagName!=='A')pick()};
+  c.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}};
+  $('#grid').appendChild(c);
+});
+
+// Gift account rows
+const addGift=()=>{
+  const r=document.createElement('div');
+  r.className='gift-row';
+  r.innerHTML='<input placeholder="Bank (BCA)" aria-label="Bank">'+
+    '<input placeholder="Account holder" aria-label="Holder">'+
+    '<input placeholder="Account number" aria-label="Number" inputmode="numeric">'+
+    '<button type="button" class="remove-gift" aria-label="Remove account">×</button>';
+  r.querySelector('.remove-gift').onclick=()=>r.remove();
+  $('#gifts').appendChild(r);
+};
+addGift();
+$('#ga').onclick=addGift;
+
+const ext=f=>(f.name.match(/\.[a-z0-9]+$/i)||['.jpg'])[0].toLowerCase();
+
+async function make(prev){
+  const key=$('#sk').value.trim(), url=$('#su').value.trim();
+  if(WedCore.jwtRole(key)==='service_role')
+    return say('That looks like a service_role key — use the anon public key instead.');
+  if(!$('#n1').value||!$('#n2').value||!$('#dt').value)
+    return say('Please fill in both names and the wedding date.');
+
+  // ── Generate slug from couple's names ──
+  const names = [$('#n1').value.trim(), $('#n2').value.trim()];
+  const slug = WedCore.makeSlug(names);
+
+  const ev={
+    names,
+    slug,
+    dateISO:`${$('#dt').value}T${$('#tm').value||'10:00'}:00`,
+    schedule:{ceremony:$('#cr').value,reception:$('#rc').value},
+    venue:{name:$('#vn').value,address:$('#va').value,
+      mapsUrl:$('#vm').value||('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent($('#vn').value))},
+    dress:{en:$('#de').value,id:$('#di').value},
+    gifts:[...document.querySelectorAll('.gift-row')].map(r=>{
+      const i=r.querySelectorAll('input');
+      return{bank:i[0].value.trim(),name:i[1].value.trim(),no:i[2].value.trim()};
+    }).filter(g=>g.bank&&g.no),
+    story:{en:lines($('#se').value),id:lines($('#si').value)},
+    captions:{en:lines($('#ce').value),id:lines($('#ci').value)},
+    video:{link:$('#vl').value.trim()},
+    supabase:{url,anonKey:key}
+  };
+
+  const files=[],
+    add=(list,p)=>[...list].map((f,i)=>{const n=`assets/${p}-${i+1}${ext(f)}`;files.push([n,f]);return n}),
+    one=(f,p)=>f?(files.push([`assets/${p}-1${ext(f)}`,f]),`assets/${p}-1${ext(f)}`):null;
+
+  const a={
+    story:add($('#fs').files,'story'),
+    album:add($('#fa').files,'album'),
+    video:{link:ev.video.link}
+  };
+  a.cover =one($('#fc').files[0],'cover');
+  a.man   =one($('#fman').files[0],'man');
+  a.woman =one($('#fwoman').files[0],'woman');
+  if($('#fv').files[0]){files.push(['assets/video.mp4',$('#fv').files[0]]);a.video.src='assets/video.mp4'}
+  if($('#fm').files[0])files.push(['assets/music.mp3',$('#fm').files[0]]);
+
+  const design=D.find(d=>d[0]===sel).join('-');
+  const [df,wiring]=await Promise.all([
+    fetch(`designs/${design}.html`).then(r=>r.text()),
+    fetch('templates/wiring.js').then(r=>r.text())
+  ]);
+  const {html,miss}=WedCore.build(df,ev,a,wiring,slug);
+  if(miss.length)say('Note: '+miss.join(', '));
+
+  if(prev){
+    let h=html;
+    files.forEach(([n,f])=>{h=h.split(n).join(URL.createObjectURL(f))});
+    window.open(URL.createObjectURL(new Blob([h],{type:'text/html'})),'_blank');
+    return say('Preview opened in a new tab. RSVP is inactive until deployed with Supabase.');
+  }
+
+  const [adm,sql,setup]=await Promise.all([
+    fetch('templates/admin.html').then(r=>r.text()),
+    fetch('templates/wedding_schema.sql').then(r=>r.text()),
+    fetch('templates/SETUP.md').then(r=>r.text())
+  ]);
+
+  const siteDir='site/'+ev.slug;
+  const z=new JSZip(),s=z.folder(siteDir);
+  s.file('index.html',html);
+  s.file('admin/index.html',adm);
+  s.file('config.js',WedCore.configJs(ev.supabase,{slug:ev.slug}));
+  s.file('_headers','/admin/*\n  X-Robots-Tag: noindex\n/config.js\n  Cache-Control: no-store\n');
+  files.forEach(([n,f])=>s.file(n,f));
+  z.file('database/wedding_schema.sql',sql);
+  z.file('SETUP.md',setup);
+  const e2=JSON.parse(JSON.stringify(ev));e2.design=sel;e2.supabase.anonKey=key;
+  z.file('event.json',JSON.stringify(e2,null,2));
+
+  const b=await z.generateAsync({type:'blob'}),l=document.createElement('a');
+  l.href=URL.createObjectURL(b);l.download=`wedding-${ev.slug}.zip`;l.click();
+  say('Done — unzip and follow SETUP.md to deploy.');
+}
+
+// Wire up all button pairs (header + footer)
+for(const [id,p] of [['pv',1],['gen',0],['pv2',1],['gen2',0]]){
+  $(('#'+id)).onclick=e=>{
+    const b=e.currentTarget;b.disabled=true;
+    make(p).catch(x=>say('Error: '+x.message)).finally(()=>b.disabled=false);
+  };
+}
+
+// Link preview: show slug-based link and allow regenerating suffix
+const linkPreview=$('#link-preview');
+const regenBtn=$('#regenerate-suffix');
+
+function updateLinkPreview(){
+  const n1=$('#n1').value.trim(), n2=$('#n2').value.trim();
+  if(!n1||!n2){
+    linkPreview.value='';
+    return;
+  }
+  const slug=WedCore.makeSlug([n1,n2]);
+  linkPreview.value=`https://YOUR-HOST/${slug}/`;
+}
+
+$('#n1').addEventListener('input',updateLinkPreview);
+$('#n2').addEventListener('input',updateLinkPreview);
+
+regenBtn.addEventListener('click',()=>{
+  const n1=$('#n1').value.trim(), n2=$('#n2').value.trim();
+  if(!n1||!n2){say('Please fill in both names first.');return}
+  // Regenerate suffix by calling makeSlug again (crypto gives new random each time)
+  const slug=WedCore.makeSlug([n1,n2]);
+  linkPreview.value=`https://YOUR-HOST/${slug}/`;
+  say('Suffix regenerated.');
+});
+
+// Initial update when names already have values
+updateLinkPreview();
+</script>
+</body>
+</html>

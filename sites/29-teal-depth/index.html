@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amara & Dewa — Wedding Invitation</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap">
+<style>
+:root{
+  --bg:#082828; --bg2:#0a3030; --ink:#e0f0f0; --mute:#7fa8a8;
+  --teal:#30a0a0; --gold:#c4973a; --deep:#051c1c; --cream:#e0f0f0;
+  --line:rgba(224,240,240,.14); --glass:rgba(8,40,40,.72);
+  --serif:'EB Garamond',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#082828;--bg2:#0a3030;--ink:#e0f0f0;--mute:#7fa8a8;--teal:#30a0a0;--gold:#c4973a;--deep:#051c1c;--cream:#e0f0f0}}
+:root[data-theme="light"]{--bg:#e6f3f3;--bg2:#d4e8e8;--ink:#082828;--mute:#3a6868;--teal:#1a7a7a;--gold:#a5781f;--deep:#082828;--cream:#082828;--line:rgba(8,40,40,.14)}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font:400 1.02rem/1.75 var(--sans);overflow-x:hidden}
+body.locked{overflow:hidden;height:100vh}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.05}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+section{padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,3rem);max-width:900px;margin:auto}
+section.full{max-width:none;padding-inline:0}
+.rule-gold{width:3rem;height:2px;background:var(--gold)}
+
+#music,#lang{position:fixed;z-index:40;top:calc(1rem + env(safe-area-inset-top,0px));width:40px;height:40px;border-radius:50%;border:1px solid var(--gold);background:var(--glass);backdrop-filter:blur(6px);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;font:400 .75rem var(--sans)}
+#music{right:1rem}#lang{right:4.1rem}
+#music::before{content:"♪"}#music.on::before{content:"♫"}
+
+/* ── COVER: deep teal, serif names, bottom band slides out left ── */
+#cover{
+  position:fixed;inset:0;z-index:50;background:var(--deep);color:var(--cream);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;
+}
+#cover.open{animation:coverOut .9s ease forwards}
+@keyframes coverOut{to{opacity:0;visibility:hidden}}
+.cover-bg{position:absolute;inset:0;z-index:-1;background-size:cover;background-position:center;opacity:.4;filter:saturate(.6)}
+.cover-bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center, rgba(5,28,28,.5), rgba(5,28,28,.92))}
+.cover-mark{font:400 .74rem var(--sans);letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:1.6rem}
+#cover h1{font-size:clamp(3.4rem,13vw,7rem);color:var(--teal)}
+#cover h1 i{display:block;font-style:italic;color:var(--gold);font-size:.4em;margin:.3em 0}
+.cover-band{
+  position:absolute;left:0;right:0;bottom:0;background:var(--bg2);
+  padding:1.6rem clamp(1.5rem,6vw,3rem) calc(1.8rem + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;justify-content:space-between;
+  transition:transform .9s cubic-bezier(.76,0,.24,1);
+}
+#cover.open .cover-band{transform:translateX(-105%)}
+.cover-guest{font:400 .85rem var(--sans);color:var(--mute);text-align:left}
+.cover-guest b{display:block;color:var(--cream);font:italic 400 1.1rem var(--serif)}
+.btn{
+  font:500 .85rem var(--sans);letter-spacing:.03em;
+  background:var(--gold);color:var(--deep);border:0;border-radius:2px;
+  padding:.85rem 1.9rem;cursor:pointer;text-decoration:none;display:inline-block;
+}
+.btn.alt{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+
+/* ── HERO: centered, teal rule, generous negative space ── */
+#hero{
+  min-height:94svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:clamp(5rem,12vh,7rem) 1.5rem clamp(4rem,10vh,6rem);
+  background:var(--bg2);
+}
+#hero .tag{font:400 .75rem var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem}
+#hero h2{font-size:clamp(2.4rem,8vw,4.4rem);max-width:15ch;margin-bottom:1.6rem}
+#hero .rule-gold{margin:0 auto 1.6rem}
+#hero p{max-width:40ch;color:var(--mute);font-size:1.05rem}
+
+/* ── INTRO: centered with gold corner brackets ── */
+#intro{text-align:center;position:relative}
+#intro::before,#intro::after{content:"";position:absolute;width:26px;height:26px;border:2px solid var(--gold);opacity:.6}
+#intro::before{top:1.5rem;left:1.5rem;border-right:0;border-bottom:0}
+#intro::after{bottom:1.5rem;right:1.5rem;border-left:0;border-top:0}
+#intro .k{font:400 .74rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem}
+#intro h2{font-size:clamp(2rem,7vw,3.6rem);margin-bottom:1.4rem}
+#intro p{max-width:48ch;margin:auto;color:var(--mute);font-size:1.08rem}
+
+/* ── PERSON: arch frame with teal border, deep sections, gold divider ── */
+#man,#woman{background:var(--bg2)}
+.person-wrap{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(2rem,6vw,4rem);align-items:center}
+.person-wrap.flip{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
+.person-wrap.flip .arch-frame{order:2}
+.arch-frame{position:relative;width:100%;aspect-ratio:3/4;border-radius:999px 999px 6px 6px;overflow:hidden;background:linear-gradient(165deg,var(--teal),var(--deep));border:3px solid var(--gold)}
+.arch-frame::after{content:"Your photo here";position:absolute;inset:auto 0 1.2rem;text-align:center;font:italic 400 .85rem var(--serif);color:rgba(224,240,240,.7)}
+.arch-frame[data-photo].has-photo::after{content:none}
+.person-info .k{font:400 .74rem var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.person-info h2{font-size:clamp(2.4rem,8vw,4.2rem);margin-bottom:1.1rem}
+.person-info p{color:var(--mute);font-size:1.03rem;max-width:32ch;margin-bottom:1.2rem}
+.person-info em{display:block;font-style:italic;font-size:.9rem;color:var(--mute);padding-top:1rem;border-top:1px solid var(--line)}
+@media(max-width:680px){.person-wrap,.person-wrap.flip{grid-template-columns:1fr}.person-wrap.flip .arch-frame{order:0}.arch-frame{max-width:min(70vw,260px);margin:0 auto}}
+
+/* ── COUNTDOWN + DETAILS ── */
+#details{background:var(--deep);max-width:none;padding:clamp(4rem,10vw,7rem) clamp(1.5rem,5vw,3rem)}
+#details>div{max-width:900px;margin:auto}
+#details h2{text-align:center;font-size:clamp(2rem,7vw,3.6rem);color:var(--teal);margin-bottom:2.4rem}
+.count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin-bottom:clamp(2.5rem,6vw,4rem)}
+.count-cell{text-align:center;padding:1.6rem .5rem;background:var(--deep)}
+.count-cell .n{font:400 clamp(2.2rem,8vw,4rem)/1 var(--serif);color:var(--gold)}
+.count-cell small{display:block;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-top:.5rem}
+.detail-row{display:grid;grid-template-columns:120px 1fr;gap:1.2rem;padding:1.3rem 0;border-top:1px solid var(--line);max-width:640px;margin-inline:auto}
+.detail-row:last-of-type{border-bottom:1px solid var(--line)}
+.detail-row .lbl{font:400 .75rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.detail-row .val small{display:block;opacity:.7;font-size:.92rem;margin-top:.3rem;color:var(--mute)}
+.map-link{margin-top:2rem;text-align:center}
+
+/* ── STORY CAROUSEL: deep teal cards with thin gold frame-line ── */
+#gallery{background:var(--bg);padding:clamp(4rem,10vw,7rem) 0}
+#gallery>h2{text-align:center;padding-inline:1.5rem;margin-bottom:2rem;font-size:clamp(2rem,7vw,3.6rem);color:var(--teal)}
+.story-track{display:flex;gap:1.4rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 clamp(1.5rem,5vw,3rem) 2rem;scrollbar-width:none}
+.story-track::-webkit-scrollbar{display:none}
+.story-card{flex:0 0 min(75vw,300px);scroll-snap-align:start;border:1px solid var(--gold);padding:.6rem}
+.story-img{aspect-ratio:4/5;overflow:hidden;position:relative}
+.story-img img{width:100%;height:100%;object-fit:cover;display:block}
+.story-text{padding:1rem .3rem .2rem;text-align:center}
+.story-text h3{font-size:1.25rem;color:var(--gold);margin-bottom:.4rem}
+.story-text p{font-size:.9rem;color:var(--mute)}
+.story-dots{display:flex;gap:.5rem;justify-content:center}
+.story-dots i{width:6px;height:6px;border-radius:50%;background:var(--mute);opacity:.35}
+.story-dots i.on{background:var(--gold);opacity:1}
+
+/* ── FILM ── */
+#film{text-align:center;background:var(--bg2)}
+.vid{aspect-ratio:16/9;background:var(--deep);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.vid video{width:100%;height:100%;object-fit:cover}
+.vid .pl{color:var(--mute);font-size:.9rem;font-style:italic}
+
+/* ── ALBUM: arch tiles in a staggered two-row frieze ── */
+#album{background:var(--bg);max-width:none}
+#album>h2{text-align:center;max-width:900px;margin:0 auto 2.4rem;font-size:clamp(2rem,7vw,3.6rem);color:var(--teal);padding-inline:1.5rem}
+.frieze{display:flex;gap:1rem;overflow-x:auto;padding:0 clamp(1.5rem,5vw,3rem) 1rem;scrollbar-width:none}
+.frieze::-webkit-scrollbar{display:none}
+.frieze-item{flex:0 0 150px;aspect-ratio:3/4;border-radius:999px 999px 6px 6px;overflow:hidden;position:relative;cursor:pointer;border:2px solid var(--gold);background:var(--teal)}
+.frieze-item:nth-child(even){margin-top:2.2rem}
+.frieze-item img{width:100%;height:100%;object-fit:cover;display:block}
+.frieze-item:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.lb{position:fixed;inset:0;z-index:60;background:rgba(5,20,20,.94);padding:2rem}
+.lb:not([hidden]){display:flex;align-items:center;justify-content:center}
+.lb #lx{position:absolute;top:1.2rem;right:1.2rem;width:40px;height:40px;border-radius:50%;border:1px solid var(--gold);background:none;color:var(--gold);font-size:1.4rem;cursor:pointer}
+.big{max-width:min(90vw,520px);max-height:80vh;aspect-ratio:3/4;overflow:hidden;border-radius:999px 999px 10px 10px;border:3px solid var(--gold)}
+.big img{width:100%;height:100%;object-fit:cover}
+
+/* ── CLOSING / RSVP ── */
+#closing{text-align:center;background:var(--bg2)}
+#closing h2{font-size:clamp(2.2rem,8vw,4rem);color:var(--teal);margin-bottom:1rem}
+#closing p{color:var(--mute);max-width:40ch;margin:0 auto 2rem}
+.rsvp-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.pax{margin-top:1.5rem}
+.pax span{display:block;font-size:.85rem;color:var(--mute);margin-bottom:.8rem}
+.ctr{display:flex;align-items:center;gap:1.2rem;justify-content:center;margin-bottom:1.3rem}
+.ctr button{width:38px;height:38px;border-radius:50%;border:1px solid var(--gold);background:none;color:var(--gold);font-size:1.2rem;cursor:pointer}
+.ctr b{font:400 1.6rem var(--serif);min-width:2ch;color:var(--cream)}
+.wish-block{margin-top:1.8rem}
+
+#wishes{background:var(--bg);max-width:none}
+#wishes>div,#wishes>h2{max-width:680px;margin-inline:auto}
+#wishes h2{text-align:center;font-size:clamp(1.8rem,6vw,3rem);color:var(--teal);margin-bottom:2rem;padding-inline:1.5rem}
+#wl{padding-inline:clamp(1.5rem,5vw,3rem);display:grid;gap:1.4rem}
+.wq{border-left:2px solid var(--gold);padding-left:1.2rem}
+.wq p{font-style:italic;font-size:1.02rem;margin-bottom:.4rem}
+.wq cite{font:400 .78rem var(--sans);letter-spacing:.06em;color:var(--mute);font-style:normal}
+
+#gift{text-align:center;background:var(--bg2)}
+#gift h2{font-size:clamp(2rem,7vw,3.4rem);color:var(--teal);margin-bottom:1rem}
+#gift p{color:var(--mute);max-width:44ch;margin:0 auto 2rem}
+.acct{display:flex;align-items:center;gap:1rem;justify-content:space-between;border:1px solid var(--gold);padding:1rem 1.2rem;margin-bottom:.9rem;text-align:left;flex-wrap:wrap;max-width:460px;margin-inline:auto}
+.acct+.acct{margin-top:.9rem}
+.acct .info{display:grid;gap:.15rem}
+.acct .info b{font-size:1rem;color:var(--gold)}
+.acct .no{color:var(--cream);font-weight:500}
+
+footer{text-align:center;padding:3rem 1.5rem calc(3rem + env(safe-area-inset-bottom,0px));color:var(--mute);font-size:.82rem;letter-spacing:.08em;background:var(--bg)}
+
+.rv{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease}
+.rv.in{opacity:1;transform:none}
+</style>
+</head>
+<body class="locked">
+
+<button id="music" aria-label="Toggle music"></button>
+<button id="lang" aria-label="Toggle language">ID</button>
+
+<div id="cover">
+  <div class="cover-bg" data-photo="cover" aria-hidden="true"></div>
+  <div class="cover-mark" data-t="wed">The wedding of</div>
+  <h1>Amara<i>&amp;</i>Dewa</h1>
+  <div class="cover-band">
+    <div class="cover-guest"><span data-t="dear">Dear</span> <b id="guest">Guest</b></div>
+    <button class="btn" id="open" data-t="open">Open invitation</button>
+  </div>
+</div>
+
+<section id="hero">
+  <div class="tag" data-t="wed">The wedding of</div>
+  <h2 data-t="h">We're getting married.</h2>
+  <div class="rule-gold"></div>
+  <p data-t="hp">Together with our families, we would love for you to be there.</p>
+</section>
+
+<section id="intro" class="rv">
+  <div class="k" data-t="introK">The wedding</div>
+  <h2 data-t="introH">Together with our families</h2>
+  <p data-t="introP">With joy we invite you to celebrate the beginning of our life together.</p>
+</section>
+
+<section id="man" class="rv">
+  <div class="person-wrap">
+    <div class="arch-frame" data-photo="man" role="img" aria-label="Photo of the groom"></div>
+    <div class="person-info">
+      <div class="k" data-t="manK">The groom</div>
+      <h2>Dewa</h2>
+      <p data-t="manP">Dewa is the calm one: early to rise, always the first to make tea, and the last to leave the table.</p>
+      <em data-t="manF">Son of Mr. &amp; Mrs. …</em>
+    </div>
+  </div>
+</section>
+
+<section id="woman" class="rv">
+  <div class="person-wrap flip">
+    <div class="arch-frame" data-photo="woman" role="img" aria-label="Photo of the bride"></div>
+    <div class="person-info">
+      <div class="k" data-t="womanK">The bride</div>
+      <h2>Amara</h2>
+      <p data-t="womanP">Amara notices the small things — good bread, old postcards, and the exact moment the light changes.</p>
+      <em data-t="womanF">Daughter of Mr. &amp; Mrs. …</em>
+    </div>
+  </div>
+</section>
+
+<section id="details" class="rv">
+  <div>
+    <h2 data-t="cd">Counting down</h2>
+    <div class="count-grid" id="count">
+      <div class="count-cell"><div class="n">0</div><small data-t="u0">days</small></div>
+      <div class="count-cell"><div class="n">0</div><small data-t="u1">hours</small></div>
+      <div class="count-cell"><div class="n">0</div><small data-t="u2">minutes</small></div>
+      <div class="count-cell"><div class="n">0</div><small data-t="u3">seconds</small></div>
+    </div>
+    <div class="detail-row"><div class="lbl" data-t="when">When</div><div class="val" data-t="w">Saturday, 13 March 2027<small>Ceremony 10:00 · Reception 12:00</small></div></div>
+    <div class="detail-row"><div class="lbl" data-t="where">Where</div><div class="val" data-t="v">Your Venue Name<small>Street address, City</small></div></div>
+    <div class="detail-row"><div class="lbl" data-t="dress">Dress</div><div class="val" data-t="d">Warm neutrals<small>Mocha, sand, clay, cream</small></div></div>
+    <div class="map-link"><a class="btn alt" id="map" href="#" target="_blank" rel="noopener" data-t="map">Open in Maps</a></div>
+  </div>
+</section>
+
+<section id="gallery" class="full rv">
+  <h2 data-t="gal">Our story, so far</h2>
+  <div class="story-track" id="track"></div>
+  <div class="story-dots" id="dots"></div>
+</section>
+
+<section id="film" class="rv"><h2 data-t="fl">The film</h2><div class="vid" id="vid"></div><div id="vl"></div></section>
+
+<section id="album" class="full rv">
+  <h2 data-t="gl">Gallery</h2>
+  <div class="frieze" id="mas"></div>
+</section>
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo"><button id="lx" aria-label="Close">×</button><div id="lc"></div></div>
+
+<section id="closing" class="rv">
+  <h2 data-t="cl">See you there.</h2>
+  <p data-t="clp">Your presence is the gift. Please let us know if you can make it.</p>
+  <div class="rsvp-btns">
+    <button class="btn" id="yes" data-t="yes">I'll be there</button>
+    <button class="btn alt" id="no" data-t="no">Can't make it</button>
+  </div>
+  <div class="pax" id="pax" hidden>
+    <span data-t="how">How many people?</span>
+    <div class="ctr">
+      <button type="button" id="pm" aria-label="Fewer">−</button>
+      <b id="pn">1</b>
+      <button type="button" id="pp" aria-label="More">+</button>
+    </div>
+    <button class="btn" id="send" data-t="send">Confirm on WhatsApp</button>
+  </div>
+  <div class="wish-block"><button class="btn alt" id="wish" data-t="wb">Send us a wish</button></div>
+</section>
+
+<section id="wishes" class="rv" hidden><h2 data-t="wh">Wishes</h2><div id="wl"></div></section>
+<section id="gift" class="rv"><h2 data-t="gf">Wedding gift</h2><p data-t="gfp">Your presence is the greatest gift. If you would also like to send a gift, you can transfer to the account below.</p><div id="giftlist"></div></section>
+<footer>Amara &amp; Dewa · 2027</footer>
+
+<script>
+const CFG={
+  date:new Date('2027-03-13T10:00:00'),
+  phone:'6281234567890',
+  wishes:[{n:'Budi Santoso',t:'Sample wish. Wishing you both a lifetime of laughter and a very good breakfast every day.'},{n:'Jane Lee',t:'Sample wish. Congratulations!'}],
+  gifts:[{bank:'BCA',name:'Amara Putri',no:'1234567890'},{bank:'Mandiri',name:'Dewa Pratama',no:'0987654321'}],
+  video:{src:'',poster:'',link:''},
+  album:[{g:'linear-gradient(165deg,#30a0a0,#051c1c)',r:'3/4'},{g:'linear-gradient(165deg,#c4973a,#0a3030)',r:'3/4'},{g:'linear-gradient(165deg,#30a0a0,#c4973a)',r:'3/4'},{g:'linear-gradient(165deg,#7fa8a8,#051c1c)',r:'3/4'},{g:'linear-gradient(165deg,#40b0b0,#0a3030)',r:'3/4'},{g:'linear-gradient(165deg,#c4973a,#051c1c)',r:'3/4'},{g:'linear-gradient(165deg,#30a0a0,#0a3030)',r:'3/4'},{g:'linear-gradient(165deg,#7fa8a8,#0a3030)',r:'3/4'},{g:'linear-gradient(165deg,#40b0b0,#c4973a)',r:'3/4'}],
+  photos:[{cap:'How we met',g:'linear-gradient(165deg,#30a0a0,#051c1c)'},{cap:'The first trip',g:'linear-gradient(165deg,#c4973a,#0a3030)'},{cap:'The question',g:'linear-gradient(165deg,#30a0a0,#c4973a)'},{cap:'Our people',g:'linear-gradient(165deg,#7fa8a8,#051c1c)'},{cap:'Next chapter',g:'linear-gradient(165deg,#40b0b0,#0a3030)'}]
+};
+const $=s=>document.querySelector(s);
+let L=(navigator.language||'en').toLowerCase().startsWith('id')?'id':'en',GN='';
+const T={
+en:{wed:'The wedding of',dear:'Dear',open:'Open invitation',date:'Saturday, 13 March 2027',h:'We\u2019re getting married.',hp:'Together with our families, we would love for you to be there.',cd:'Counting down',when:'When',where:'Where',dress:'Dress',w:'Saturday, 13 March 2027<small>Ceremony 10:00 \xb7 Reception 12:00</small>',v:'Your Venue Name<small>Street address, City</small>',d:'Warm neutrals<small>Mocha, sand, clay, cream</small>',map:'Open in Maps',gal:'Our story, so far',cl:'See you there.',clp:'Your presence is the gift. Please let us know if you can make it.',yes:'I\u2019ll be there',no:'Can\u2019t make it',how:'How many people in total?',send:'Confirm on WhatsApp',wh:'Wishes from our guests',wb:'Send us a wish',gf:'Wedding gift',gfp:'Your presence is the greatest gift. If you would also like to send a gift, you can transfer to the account below.',copy:'Copy number',copied:'Copied',fl:'The film',gl:'Gallery',vph:'Your video goes here',vl:'Watch the full video',guest:'Beloved Guest',u:['days','hours','minutes','seconds'],caps:['How we met','The first trip','The question','Our people','Next chapter'],story:['Write a few lines about the day you first met.','The first trip together.','The proposal, in your own words.','A line about the families who brought you here.','What you look forward to next.'],introK:'The wedding',introH:'Together with our families',introP:'With joy we invite you to celebrate the beginning of our life together.',manK:'The groom',manP:'Dewa is the calm one: early to rise, always the first to make tea, and the last to leave the table.',manF:'Son of Mr. &amp; Mrs. \u2026',womanK:'The bride',womanP:'Amara notices the small things \u2014 good bread, old postcards, and the exact moment the light changes.',womanF:'Daughter of Mr. &amp; Mrs. \u2026',lang:'ID'},
+id:{wed:'Pernikahan',dear:'Yth.',open:'Buka undangan',date:'Sabtu, 13 Maret 2027',h:'Kami akan menikah.',hp:'Bersama keluarga, kami sangat berharap Anda dapat hadir.',cd:'Hitung mundur',when:'Kapan',where:'Di mana',dress:'Busana',w:'Sabtu, 13 Maret 2027<small>Upacara 10.00 \xb7 Resepsi 12.00</small>',v:'Nama Tempat Anda<small>Alamat, Kota</small>',d:'Warna hangat<small>Mocha, pasir, terakota, krem</small>',map:'Buka di Peta',gal:'Kisah kami',cl:'Sampai jumpa.',clp:'Kehadiran Anda adalah hadiah terbaik.',yes:'Saya akan hadir',no:'Tidak bisa hadir',how:'Berapa orang?',send:'Konfirmasi lewat WhatsApp',wh:'Ucapan dari para tamu',wb:'Kirim ucapan',gf:'Hadiah pernikahan',gfp:'Kehadiran Anda adalah hadiah terbaik.',copy:'Salin nomor',copied:'Tersalin',fl:'Cuplikan film',gl:'Galeri',vph:'Video Anda di sini',vl:'Tonton video lengkap',guest:'Tamu Terhormat',u:['hari','jam','menit','detik'],caps:['Pertama bertemu','Perjalanan pertama','Sebuah pertanyaan','Orang-orang kami','Babak baru'],story:['Tulis tentang hari pertama kalian bertemu.','Perjalanan pertama bersama.','Momen lamaran.','Keluarga dan sahabat yang hadir.','Apa yang kalian nantikan.'],introK:'Pernikahan',introH:'Bersama keluarga kami',introP:'Dengan sukacita kami mengundang Anda.',manK:'Mempelai pria',manP:'Dewa adalah yang paling tenang.',manF:'Putra dari Bapak &amp; Ibu \u2026',womanK:'Mempelai wanita',womanP:'Amara memperhatikan hal-hal kecil.',womanF:'Putri dari Bapak &amp; Ibu \u2026',lang:'EN'}};
+
+function applyLang(){
+  document.documentElement.lang=L;
+  document.querySelectorAll('[data-t]').forEach(e=>{
+    const k=e.dataset.t;
+    if(k==='u0'||k==='u1'||k==='u2'||k==='u3')e.textContent=T[L].u[+k.slice(1)];
+    else if(T[L][k]!==undefined)e.innerHTML=T[L][k];
+  });
+  document.querySelectorAll('.cp').forEach((e,i)=>e.textContent=T[L].caps[i]||'');
+  document.querySelectorAll('.sp').forEach((e,i)=>e.textContent=T[L].story[i]||'');
+  $('#lang').textContent=T[L].lang;
+  $('#guest').textContent=GN||T[L].guest;
+  tick();
+}
+function parse(){
+  let h='';try{h=decodeURIComponent((location.hash||'').slice(1))}catch(e){}
+  const m=h.match(/--(id|en)$/i);if(m){L=m[1].toLowerCase();h=h.slice(0,-m[0].length)}
+  let n=h.replace(/[-_+]+/g,' ').trim();
+  if(!n){try{n=new URLSearchParams(location.search).get('to')||''}catch(e){}}
+  GN=n.replace(/[<>]/g,'');applyLang();
+}
+const M={
+  en:{y:(n,p)=>`Hello Amara & Dewa, this is ${n}. I will attend with ${p} ${p>1?'people':'person'}.`,n:n=>`Hello Amara & Dewa, this is ${n}. I'm sorry I can't attend. Congratulations!`,w:n=>`Hello Amara & Dewa, this is ${n}. My wish for you: `},
+  id:{y:(n,p)=>`Halo Amara & Dewa, saya ${n}. Saya akan hadir bersama total ${p} orang.`,n:n=>`Halo Amara & Dewa, saya ${n}. Mohon maaf, tidak dapat hadir.`,w:n=>`Halo Amara & Dewa, saya ${n}. Ucapan saya: `}
+};
+$('#lang').onclick=()=>{L=L==='en'?'id':'en';applyLang()};
+addEventListener('hashchange',parse);
+
+// Music
+let ac,gain,playing=false,timer;
+function chord(i){const sets=[[196,246.9,293.7,392],[174.6,220,261.6,349.2],[164.8,207.7,246.9,329.6],[185,233,277.2,370]];sets[i%4].forEach(f=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,ac.currentTime);g.gain.linearRampToValueAtTime(.05,ac.currentTime+2);g.gain.linearRampToValueAtTime(0,ac.currentTime+6.5);o.connect(g).connect(gain);o.start();o.stop(ac.currentTime+7)})}
+function play(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();if(!gain){gain=ac.createGain();gain.gain.value=1;gain.connect(ac.destination)}ac.resume();let i=0;chord(i++);timer=setInterval(()=>chord(i++),5000);playing=true;$('#music').classList.add('on')}catch(e){}}
+function stop(){clearInterval(timer);if(ac)ac.suspend();playing=false;$('#music').classList.remove('on')}
+$('#music').onclick=()=>playing?stop():play();
+$('#open').onclick=()=>{$('#cover').classList.add('open');document.body.classList.remove('locked');scrollTo(0,0);play()};
+
+// Countdown
+function tick(){
+  const cells=$('#count').querySelectorAll('.n');
+  let d=Math.max(0,CFG.date-new Date()),s=Math.floor(d/1e3);
+  [Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60].forEach((v,i)=>cells[i].textContent=v);
+}
+tick();setInterval(tick,1000);
+
+// Story carousel
+const tr=$('#track'),dt=$('#dots');
+CFG.photos.forEach((p,i)=>{
+  const c=document.createElement('div');c.className='story-card';
+  c.innerHTML=`<div class="story-img" style="background:${p.g}">${p.src?`<img src="${p.src}" alt="">`:''}
+  </div><div class="story-text"><h3 class="cp"></h3><p class="sp"></p></div>`;
+  tr.appendChild(c);dt.appendChild(document.createElement('i'));
+});
+function dots(){const cs2=[...tr.children],mid=tr.scrollLeft+tr.clientWidth/2;let k=0,b=1e9;cs2.forEach((c,i)=>{const d2=Math.abs(c.offsetLeft+c.offsetWidth/2-mid);if(d2<b){b=d2;k=i}});[...dt.children].forEach((e,i)=>e.classList.toggle('on',i===k))}
+tr.addEventListener('scroll',dots,{passive:true});dots();
+
+// Album frieze
+const ms=$('#mas'),lb=$('#lb'),lc=$('#lc');
+CFG.album.forEach((a,i)=>{const d=document.createElement('div');d.className='frieze-item';d.tabIndex=0;d.setAttribute('role','button');d.setAttribute('aria-label','Photo '+(i+1));d.style.background=a.g||'var(--teal)';const p=a.src?Object.assign(document.createElement('img'),{src:a.src,alt:'',loading:'lazy'}):null;if(p)d.appendChild(p);const open=()=>{lc.innerHTML='';const b=document.createElement('div');b.className='big';b.style.background=a.g;b.style.aspectRatio=a.r||'3/4';if(p){const p2=document.createElement('img');p2.src=a.src;p2.alt='';b.appendChild(p2)}lc.appendChild(b);lb.hidden=false;$('#lx').focus()};d.onclick=open;d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}};ms.appendChild(d)});
+$('#lx').onclick=()=>{lb.hidden=true};lb.onclick=e=>{if(e.target===lb)lb.hidden=true};addEventListener('keydown',e=>{if(e.key==='Escape')lb.hidden=true});
+
+// Video
+const vd=$('#vid');if(CFG.video.src){const v=document.createElement('video');v.controls=true;v.playsInline=true;v.preload='metadata';if(CFG.video.poster)v.poster=CFG.video.poster;v.src=CFG.video.src;vd.appendChild(v)}else vd.innerHTML='<span class="pl" data-t="vph">Your video goes here</span>';
+if(CFG.video.link){$('#vl').innerHTML='<p style="margin-top:1rem"><a class="btn alt" target="_blank" rel="noopener" data-t="vl">Watch the full video</a></p>';$('#vl a').href=CFG.video.link}
+
+// RSVP
+let pax=1;const nm=()=>GN||(L==='id'?'Tamu':'Guest'),go=t=>window.open('https://wa.me/'+CFG.phone+'?text='+encodeURIComponent(t),'_blank','noopener');
+$('#yes').onclick=()=>{$('#pax').hidden=false};
+$('#pm').onclick=()=>{pax=Math.max(1,pax-1);$('#pn').textContent=pax};
+$('#pp').onclick=()=>{pax=Math.min(20,pax+1);$('#pn').textContent=pax};
+$('#send').onclick=()=>go(M[L].y(nm(),pax));
+$('#no').onclick=()=>go(M[L].n(nm()));
+$('#wish').onclick=()=>go(M[L].w(nm()));
+
+// Gift accounts
+if(!CFG.gifts.length)$('#gift').hidden=true;
+CFG.gifts.forEach(a=>{const r=document.createElement('div');r.className='acct';const info=document.createElement('div');info.className='info';info.innerHTML=`<b>${a.bank}</b><span class="no">${a.no}</span><span>${a.name}</span>`;const c=document.createElement('button');c.className='btn alt';c.dataset.t='copy';c.textContent='Copy number';c.onclick=()=>(navigator.clipboard?navigator.clipboard.writeText(a.no):Promise.reject()).then(()=>{c.textContent=T[L].copied;setTimeout(()=>c.textContent=T[L].copy,1500)}).catch(()=>prompt('Copy',a.no));r.append(info,c);$('#giftlist').appendChild(r)});
+
+// Wishes
+if(CFG.wishes.length){$('#wishes').hidden=false;CFG.wishes.forEach(w=>{const q=document.createElement('blockquote');q.className='wq';q.innerHTML=`<p>${w.t}</p><cite>${w.n}</cite>`;$('#wl').appendChild(q)})}
+
+// Reveal
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+
+parse();
+</script>
+</body>
+</html>

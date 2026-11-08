@@ -1,0 +1,4 @@
+/admin/*
+  X-Robots-Tag: noindex
+/config.js
+  Cache-Control: no-store
