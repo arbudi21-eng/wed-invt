@@ -445,7 +445,8 @@ button:disabled { opacity: .4; cursor: not-allowed }
           <label>Project URL <input id="su" type="url" placeholder="https://xxxx.supabase.co"></label>
           <label>Anon public key <input id="sk" autocomplete="off" placeholder="eyJ…"></label>
         </div>
-        <p class="note">Use the <strong>anon</strong> (public) key — never the <code>service_role</code> key. The key is embedded in the generated site and will be visible to guests. Create a free project at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> and run the included SQL to set up RSVP and wishes tables.</p>
+        <p class="note" id="url-note">Use the <strong>anon</strong> (public) key — never the <code>service_role</code> key. The key is embedded in the generated site and will be visible to guests. Create a free project at <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> and run the included SQL to set up RSVP and wishes tables.</p>
+<p class="optional-note" style="margin-top: .5rem; font-size: .85rem; color: var(--mute);">Project URL is optional - the system will use default settings if left blank.</p></p>
       </div>
     </div>
 
